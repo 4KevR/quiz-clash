@@ -12,6 +12,7 @@ public class CLIWindowManager {
   private final Scanner scanner = new Scanner(System.in);
   private int currentX = 0;
   private int currentY = 0;
+  private boolean onCanvas = true;
 
   public CLIWindowManager(int sizeX, int sizeY) {
     this.sizeX = sizeX;
@@ -58,16 +59,23 @@ public class CLIWindowManager {
     currentX = moveToX;
     System.out.printf("\u001b[%dB", moveToY + boundaryOffset + 1);
     currentY = moveToY;
+    onCanvas = true;
   }
 
   public void moveToActionField() {
     System.out.printf("\u001b[%dD", currentX - 1);
     System.out.printf("\u001b[%dB", canvasSizeY - currentY + boundaryOffset * 2 + 1);
+    onCanvas = false;
+    currentX = currentY = 0;
   }
 
   public void clearCanvas() {
     this.moveOnCanvas(0, 0);
+    System.out.print("\u001b[1D");
     this.print(" ".repeat(canvasSizeX * canvasSizeY));
+    this.moveToActionField();
+    System.out.print("\u001b[1D");
+    this.print(" ".repeat(canvasSizeX * actionCanvasSizeY));
     this.moveOnCanvas(0, 0);
   }
 
@@ -76,8 +84,13 @@ public class CLIWindowManager {
     return scanner.nextLine();
   }
 
+  public int getRangeSelect(int lowerBound, int higherBound) {
+    this.print(String.format("Select option (%d - %d): ", lowerBound, higherBound));
+    return scanner.nextInt();
+  }
+
   public void addNewLine() {
-    if (currentY + 1 >= canvasSizeY) {
+    if (currentY + 1 >= (onCanvas ? canvasSizeY : actionCanvasSizeY)) {
       this.clearCanvas();
     } else {
       System.out.println();
