@@ -1,0 +1,48 @@
+[
+  {
+    "categoryName": "Science",
+    "questions": [
+      {
+        "question": "What is the chemical symbol for water?",
+        "questionOptions": [
+          {"questionOption": "H2O", "isRight": true},
+          {"questionOption": "CO2", "isRight": false},
+          {"questionOption": "O2", "isRight": false},
+          {"questionOption": "H2SO4", "isRight": false}
+        ]
+      },
+      {
+        "question": "What planet is known as the Red Planet?",
+        "questionOptions": [
+          {"questionOption": "Mars", "isRight": true},
+          {"questionOption": "Jupiter", "isRight": false},
+          {"questionOption": "Saturn", "isRight": false},
+          {"questionOption": "Venus", "isRight": false}
+        ]
+      }
+    ]
+  },
+  {
+    "categoryName": "History",
+    "questions": [
+      {
+        "question": "Who was the first president of the United States?",
+        "questionOptions": [
+          {"questionOption": "George Washington", "isRight": true},
+          {"questionOption": "Thomas Jefferson", "isRight": false},
+          {"questionOption": "Abraham Lincoln", "isRight": false},
+          {"questionOption": "John Adams", "isRight": false}
+        ]
+      },
+      {
+        "question": "In which year did the Titanic sink?",
+        "questionOptions": [
+          {"questionOption": "1912", "isRight": true},
+          {"questionOption": "1910", "isRight": false},
+          {"questionOption": "1914", "isRight": false},
+          {"questionOption": "1916", "isRight": false}
+        ]
+      }
+    ]
+  }
+]

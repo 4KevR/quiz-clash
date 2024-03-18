@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ASCIResourceReader {
-  public static List<String> from(ResourceEnum resource) throws IOException {
+  public static List<String> from(ASCIResourceEnum resource) throws IOException {
     ClassLoader classLoader = ASCIResourceReader.class.getClassLoader();
     InputStream inputStream = classLoader.getResourceAsStream(resource.getPath());
     assert inputStream != null;

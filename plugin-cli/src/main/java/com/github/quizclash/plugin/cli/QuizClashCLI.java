@@ -16,7 +16,7 @@ public class QuizClashCLI {
     cliWindow.printAnimated("Welcome to ...", 50);
     Thread.sleep(500);
     cliWindow.clearCanvas();
-    List<String> nameLines = ASCIResourceReader.from(ResourceEnum.NAME);
+    List<String> nameLines = ASCIResourceReader.from(ASCIResourceEnum.NAME);
     cliWindow.printLines(nameLines);
   }
 

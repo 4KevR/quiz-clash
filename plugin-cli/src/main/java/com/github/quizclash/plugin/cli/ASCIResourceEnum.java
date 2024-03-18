@@ -1,11 +1,13 @@
 package com.github.quizclash.plugin.cli;
 
-public enum ResourceEnum {
+import com.github.quizclash.domain.Resource;
+
+public enum ASCIResourceEnum implements Resource {
   NAME("asci/name.txt");
 
   private final String path;
 
-  ResourceEnum(String path) {
+  ASCIResourceEnum(String path) {
     this.path = path;
   }
 
