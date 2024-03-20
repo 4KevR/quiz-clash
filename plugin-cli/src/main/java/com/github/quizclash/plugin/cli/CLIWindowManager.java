@@ -62,6 +62,17 @@ public class CLIWindowManager {
     onCanvas = true;
   }
 
+  public void moveOnActionField(int moveToX, int moveToY) {
+    if (onCanvas)
+      moveToActionField();
+    System.out.printf("\u001b[%dD", currentX);
+    System.out.printf("\u001b[%dA", currentY);
+    System.out.printf("\u001b[%dC", moveToX);
+    currentX = moveToX;
+    System.out.printf("\u001b[%dB", moveToY);
+    currentY = moveToY;
+  }
+
   public void moveToActionField() {
     System.out.printf("\u001b[%dD", currentX - 1);
     System.out.printf("\u001b[%dB", canvasSizeY - currentY + boundaryOffset * 2 + 1);
@@ -69,14 +80,20 @@ public class CLIWindowManager {
     currentX = currentY = 0;
   }
 
-  public void clearCanvas() {
+  public void clearAllCanvas() {
     this.moveOnCanvas(0, 0);
     System.out.print("\u001b[1D");
     this.print(" ".repeat(canvasSizeX * canvasSizeY));
+    this.clearActionField();
+    this.moveOnCanvas(0, 0);
+  }
+
+  public void clearActionField() {
+    this.moveOnCanvas(0, 0);
     this.moveToActionField();
     System.out.print("\u001b[1D");
     this.print(" ".repeat(canvasSizeX * actionCanvasSizeY));
-    this.moveOnCanvas(0, 0);
+    this.moveOnActionField(0, 0);
   }
 
   public String getTextInput(String request) {
@@ -86,12 +103,18 @@ public class CLIWindowManager {
 
   public int getRangeSelect(int lowerBound, int higherBound) {
     this.print(String.format("Select option (%d - %d): ", lowerBound, higherBound));
-    return scanner.nextInt();
+    if (scanner.hasNextInt()) {
+      int selectedOption = scanner.nextInt();
+      scanner.nextLine();
+      return selectedOption;
+    }
+    scanner.nextLine();
+    return 0;
   }
 
   public void addNewLine() {
     if (currentY + 1 >= (onCanvas ? canvasSizeY : actionCanvasSizeY)) {
-      this.clearCanvas();
+      this.clearAllCanvas();
     } else {
       System.out.println();
       System.out.printf("\u001b[%dC", boundaryOffset + 1);

@@ -1,6 +1,7 @@
 package com.github.quizclash.plugin.database;
 
 import com.github.quizclash.domain.Category;
+import com.github.quizclash.domain.CategoryRepository;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Question;
 import com.github.quizclash.domain.QuestionOption;
@@ -8,10 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
 
-public class CategoryRepository {
+public class CategoryRepositoryImpl implements CategoryRepository {
   private final Category[] categories;
 
-  public CategoryRepository() throws IOException, InvalidQuestionFormatException {
+  public CategoryRepositoryImpl() throws IOException, InvalidQuestionFormatException {
     JSONArray jsonCategories = JSONResourceReader.from(JSONResourceEnum.CATEGORIES);
     categories = new Category[jsonCategories.length()];
     for (int index = 0; index < jsonCategories.length(); index++) {

@@ -1,63 +1,90 @@
 package com.github.quizclash.plugin.cli;
 
+import com.github.quizclash.application.Welcome;
+import com.github.quizclash.domain.Actionable;
 import com.github.quizclash.domain.Displayable;
-import com.github.quizclash.domain.GameModeEnum;
-import com.github.quizclash.domain.MainMenuEnum;
-import com.github.quizclash.domain.User;
+import com.github.quizclash.domain.IntegerAction;
+import com.github.quizclash.domain.OptionScreen;
+import com.github.quizclash.domain.Repository;
+import com.github.quizclash.domain.Screen;
+import com.github.quizclash.domain.ScreenProvider;
+import com.github.quizclash.domain.TextAction;
+import com.github.quizclash.domain.TextInputScreen;
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
 
 public class QuizClashCLI {
   private final CLIWindowManager cliWindow;
+  private ScreenProvider currentScreenProvider;
 
-  public QuizClashCLI(int sizeX, int sizeY) throws InterruptedException, IOException {
-    cliWindow = new CLIWindowManager(sizeX, sizeY);
+  public QuizClashCLI(int sizeX, int sizeY, Repository repository) throws InterruptedException, IOException {
+    this.cliWindow = new CLIWindowManager(sizeX, sizeY);
+    this.currentScreenProvider = new Welcome(repository);
     cliWindow.printAnimated("Welcome to ...", 50);
     Thread.sleep(500);
-    cliWindow.clearCanvas();
+    cliWindow.clearAllCanvas();
     List<String> nameLines = ASCIResourceReader.from(ASCIResourceEnum.NAME);
     cliWindow.printLines(nameLines);
+    Thread.sleep(2000);
   }
 
-  public String getUserName() {
-    cliWindow.moveToActionField();
-    return cliWindow.getTextInput("Enter your name");
-  }
-
-  public MainMenuEnum selectFromMainMenu(User user) throws InterruptedException {
-    cliWindow.clearCanvas();
-    cliWindow.printAnimated("Hello " + user.getName() + "!", 20);
-    cliWindow.moveOnCanvas(0, 3);
-    cliWindow.println("Main Menu");
-    cliWindow.addNewLine();
-    List<Displayable> mainMenuEnumList = List.of(MainMenuEnum.values());
-    return (MainMenuEnum) selectFromOptions(mainMenuEnumList);
-  }
-
-  public GameModeEnum selectGame() throws InterruptedException {
-    cliWindow.clearCanvas();
-    cliWindow.printAnimated("Chose game mode", 20);
-    cliWindow.moveOnCanvas(0, 2);
-    List<Displayable> gameModeEnumList = List.of(GameModeEnum.values());
-    return (GameModeEnum) selectFromOptions(gameModeEnumList);
+  public void start() throws InterruptedException {
+    while (currentScreenProvider != null) {
+      while (currentScreenProvider.hasNextScreen()) {
+        Actionable<?> action = render(currentScreenProvider.fetchScreen());
+        currentScreenProvider.submitAction(action);
+      }
+      currentScreenProvider = currentScreenProvider.getNextScreenProvider();
+    }
   }
 
   public void destroy() throws InterruptedException {
-    cliWindow.clearCanvas();
+    cliWindow.clearAllCanvas();
     cliWindow.printAnimated("Thank you for playing QuizClash!", 50);
     Thread.sleep(2000);
     cliWindow.clearCLI();
   }
 
-  private Displayable selectFromOptions(List<Displayable> optionList) {
+  private Actionable<?> render(Screen screen) throws InterruptedException {
+    cliWindow.clearAllCanvas();
+    cliWindow.printAnimated(screen.getScreenName(), 20);
+    cliWindow.moveOnCanvas(0, 2);
+    if (screen instanceof OptionScreen optionScreen) {
+      List<Displayable> optionList = optionScreen.getScreenOptions();
+      return selectFromOptions(optionList);
+    } else if (screen instanceof TextInputScreen textInputScreen) {
+      return enterTextFromRequest(textInputScreen.getInputRequest());
+    }
+    return new IntegerAction(0);
+  }
+
+  private Actionable<?> selectFromOptions(List<Displayable> optionList) throws InterruptedException {
     ListIterator<Displayable> gameModeListIterator = optionList.listIterator();
     while (gameModeListIterator.hasNext()) {
       cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " +
           gameModeListIterator.next().getDisplayName());
     }
     cliWindow.moveToActionField();
-    int selected = cliWindow.getRangeSelect(1, optionList.size());
-    return optionList.get(selected - 1);
+    int selected = 0;
+    while (selected == 0) {
+      selected = cliWindow.getRangeSelect(1, optionList.size());
+      if (selected == 0) {
+        cliWindow.clearActionField();
+        System.out.print("\u001b[1D");
+        System.out.print("\u001b[1A");
+        cliWindow.print("Please only enter numeric values!");
+        Thread.sleep(2000);
+        cliWindow.clearActionField();
+        System.out.print("\u001b[1D");
+        System.out.print("\u001b[1A");
+      }
+    }
+    return new IntegerAction(selected);
+  }
+
+  private Actionable<?> enterTextFromRequest(String request) {
+    cliWindow.moveToActionField();
+    return new TextAction(cliWindow.getTextInput(request));
   }
 }
