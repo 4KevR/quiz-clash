@@ -1,15 +1,8 @@
 package com.github.quizclash.plugin.cli;
 
-import com.github.quizclash.application.Welcome;
-import com.github.quizclash.domain.Actionable;
-import com.github.quizclash.domain.Displayable;
-import com.github.quizclash.domain.IntegerAction;
-import com.github.quizclash.domain.OptionScreen;
-import com.github.quizclash.domain.Repository;
-import com.github.quizclash.domain.Screen;
-import com.github.quizclash.domain.ScreenProvider;
-import com.github.quizclash.domain.TextAction;
-import com.github.quizclash.domain.TextInputScreen;
+import com.github.quizclash.application.WelcomeScreenProvider;
+import com.github.quizclash.domain.*;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ListIterator;
@@ -20,7 +13,7 @@ public class QuizClashCLI {
 
   public QuizClashCLI(int sizeX, int sizeY, Repository repository) throws InterruptedException, IOException {
     this.cliWindow = new CLIWindowManager(sizeX, sizeY);
-    this.currentScreenProvider = new Welcome(repository);
+    this.currentScreenProvider = new WelcomeScreenProvider(repository);
     cliWindow.printAnimated("Welcome to ...", 50);
     Thread.sleep(500);
     cliWindow.clearAllCanvas();
@@ -29,7 +22,7 @@ public class QuizClashCLI {
     Thread.sleep(2000);
   }
 
-  public void start() throws InterruptedException {
+  public void run() throws InterruptedException {
     while (currentScreenProvider != null) {
       while (currentScreenProvider.hasNextScreen()) {
         Actionable<?> action = render(currentScreenProvider.fetchScreen());
@@ -55,6 +48,12 @@ public class QuizClashCLI {
       return selectFromOptions(optionList);
     } else if (screen instanceof TextInputScreen textInputScreen) {
       return enterTextFromRequest(textInputScreen.getInputRequest());
+    } else if (screen instanceof InformationScreen informationScreen) {
+      for (String line : informationScreen.getLines()) {
+        cliWindow.println(line);
+      }
+      cliWindow.moveToActionField();
+      cliWindow.waitForEnter();
     }
     return new IntegerAction(0);
   }

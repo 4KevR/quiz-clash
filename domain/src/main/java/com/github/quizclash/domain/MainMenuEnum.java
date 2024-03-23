@@ -1,7 +1,4 @@
 package com.github.quizclash.domain;
-
-import com.github.quizclash.domain.Displayable;
-
 public enum MainMenuEnum implements Displayable {
   START_GAME("Start Game"),
   QUIT("Quit");

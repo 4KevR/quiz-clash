@@ -1,33 +1,31 @@
 package com.github.quizclash.application;
 
 import com.github.quizclash.domain.Actionable;
+import com.github.quizclash.domain.GameModeEnum;
+import com.github.quizclash.domain.OptionScreen;
 import com.github.quizclash.domain.Repository;
 import com.github.quizclash.domain.Screen;
 import com.github.quizclash.domain.ScreenProvider;
-import com.github.quizclash.domain.TextInputScreen;
-import com.github.quizclash.domain.User;
+import java.util.List;
 
-public class Welcome implements ScreenProvider {
+public class GameModeScreenProvider implements ScreenProvider {
   private final Repository repository;
   private boolean hasNextScreen = true;
 
-  public Welcome(Repository repository) {
+  public GameModeScreenProvider(Repository repository) {
     this.repository = repository;
   }
 
   public Screen fetchScreen() {
-    return new TextInputScreen("Your name is required to start the game!", "Enter your name");
+    return new OptionScreen("Select Game Mode", List.of(GameModeEnum.values()));
   }
 
   public void submitAction(Actionable<?> action) {
-    String actionValue = (String) action.getActionValue();
-    User currentUser = new User(actionValue);
-    repository.getUserRepository().setUser(currentUser);
-    this.hasNextScreen = false;
+    hasNextScreen = false;
   }
 
   public ScreenProvider getNextScreenProvider() {
-    return new Menu(repository);
+    return new TrainingScreenProvider(repository);
   }
 
   public boolean hasNextScreen() {

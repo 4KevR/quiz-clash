@@ -8,12 +8,12 @@ import com.github.quizclash.domain.Screen;
 import com.github.quizclash.domain.ScreenProvider;
 import java.util.List;
 
-public class Menu implements ScreenProvider {
+public class MenuScreenProvider implements ScreenProvider {
   private final Repository repository;
   private boolean hasNextScreen = true;
   private boolean isEnd = true;
 
-  public Menu(Repository repository) {
+  public MenuScreenProvider(Repository repository) {
     this.repository = repository;
   }
 
@@ -32,7 +32,7 @@ public class Menu implements ScreenProvider {
   }
 
   public ScreenProvider getNextScreenProvider() {
-    return isEnd ? null : new GameMode(repository);
+    return isEnd ? null : new GameModeScreenProvider(repository);
   }
 
   public boolean hasNextScreen() {
