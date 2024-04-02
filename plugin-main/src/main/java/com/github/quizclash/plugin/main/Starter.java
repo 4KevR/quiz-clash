@@ -14,7 +14,7 @@ public class Starter {
     UserRepositoryImpl userRepository = new UserRepositoryImpl();
     Repository repository = new RepositoryImpl(categoryRepository, userRepository);
     QuizClashCLI quizClashCLI = new QuizClashCLI(100, 30, repository);
-    quizClashCLI.start();
+    quizClashCLI.run();
     quizClashCLI.destroy();
   }
 }

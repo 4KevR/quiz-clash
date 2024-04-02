@@ -129,6 +129,11 @@ public class CLIWindowManager {
     System.out.print("\u001b[2J");
   }
 
+  public void waitForEnter() {
+    this.print("Press ENTER to continue");
+    scanner.nextLine();
+  }
+
   private void setup() {
     this.clearCLI();
     System.out.println("┌" + "─".repeat(sizeX - 2) + "┐");

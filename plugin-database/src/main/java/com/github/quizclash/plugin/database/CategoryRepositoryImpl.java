@@ -8,6 +8,8 @@ import com.github.quizclash.domain.QuestionOption;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CategoryRepositoryImpl implements CategoryRepository {
   private final Category[] categories;
@@ -17,11 +19,13 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     categories = new Category[jsonCategories.length()];
     for (int index = 0; index < jsonCategories.length(); index++) {
       JSONObject jsonCategory = jsonCategories.getJSONObject(index);
+      int categoryId = jsonCategory.getInt("id");
       String categoryName = jsonCategory.getString("categoryName");
       JSONArray jsonQuestions = jsonCategory.getJSONArray("questions");
       Question[] questions = new Question[jsonQuestions.length()];
       for (int questionIndex = 0; questionIndex < jsonQuestions.length(); questionIndex++) {
         JSONObject jsonQuestion = jsonQuestions.getJSONObject(questionIndex);
+        int questionId = jsonQuestion.getInt("id");
         String question = jsonQuestion.getString("question");
         JSONArray jsonQuestionOptions = jsonQuestion.getJSONArray("questionOptions");
         QuestionOption[] questionOptions = new QuestionOption[jsonQuestionOptions.length()];
@@ -31,13 +35,26 @@ public class CategoryRepositoryImpl implements CategoryRepository {
           boolean isRight = jsonQuestionOption.getBoolean("isRight");
           questionOptions[questionOptionIndex] = new QuestionOption(questionOption, isRight);
         }
-        questions[questionIndex] = new Question(question, questionOptions);
+        questions[questionIndex] = new Question(questionId, question, questionOptions);
       }
-      categories[index] = new Category(categoryName, questions);
+      categories[index] = new Category(categoryId, categoryName, questions);
     }
   }
 
   public Category[] getCategories() {
     return categories;
+  }
+
+  public Category[] getRandomCategories(int amountOfRandomCategories) {
+    final Category[] categoryResult = new Category[amountOfRandomCategories];
+    final List<Integer> categoryResultIndexes = new ArrayList<>();
+    while (categoryResultIndexes.size() < amountOfRandomCategories) {
+      final int newIndex = (int) (Math.random() * categories.length);
+      if (!categoryResultIndexes.contains(newIndex)) {
+        categoryResult[categoryResultIndexes.size()] = categories[newIndex];
+        categoryResultIndexes.add(newIndex);
+      }
+    }
+    return categoryResult;
   }
 }
