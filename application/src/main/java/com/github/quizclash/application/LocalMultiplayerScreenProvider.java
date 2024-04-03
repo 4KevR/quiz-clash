@@ -5,23 +5,28 @@ import com.github.quizclash.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingScreenProvider implements ScreenProvider {
+public class LocalMultiplayerScreenProvider implements ScreenProvider {
     private final Repository repository;
     private final QuizGame quizGame;
     private boolean hasNextScreen = true;
 
-    public TrainingScreenProvider(Repository repository) {
+    public LocalMultiplayerScreenProvider(Repository repository) {
         this.repository = repository;
-        String playerName = this.repository.getUserRepository().getUsers().get(0).getName();
-        Player[] trainingPlayer = {new Player(playerName)};
-        this.quizGame = new QuizGame(repository.getCategoryRepository(), 4, trainingPlayer);
+        List<User> users = this.repository.getUserRepository().getUsers();
+        Player[] players = new Player[users.size()];
+        for(int i = 0; i < users.size(); i++) {
+            players[i] = new Player(users.get(i).getName());
+        }
+        this.quizGame = new QuizGame(repository.getCategoryRepository(), 4, players);
     }
 
     public Screen fetchScreen() {
-        if (quizGame.isFinished()) {
+        if(quizGame.isFinished()){
             List<String> lines = new ArrayList<>();
-            Player trainingPlayer = quizGame.getPlayers()[0];
-            lines.add(String.format("%s - %d points", trainingPlayer.getPlayerName(), trainingPlayer.getCurrentScore().getIntScore()));
+            Player[] players = quizGame.getPlayers();
+            for(Player player : players) {
+                lines.add(String.format("%s - %d points", player.getPlayerName(), player.getCurrentScore().getIntScore()));
+            }
             return new InformationScreen("Result", lines);
         } else if (quizGame.isSelectingCategory()) {
             String playerName = quizGame.getCurrentPlayer().getPlayerName();
@@ -34,7 +39,7 @@ public class TrainingScreenProvider implements ScreenProvider {
 
     public void submitAction(Actionable<?> action) {
         int actionValue = (int) action.getActionValue();
-        if (quizGame.isFinished()) {
+        if(quizGame.isFinished()) {
             hasNextScreen = false;
         } else if (quizGame.isSelectingCategory()) {
             quizGame.setCurrentCategory(actionValue - 1);

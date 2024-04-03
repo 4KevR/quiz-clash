@@ -44,7 +44,7 @@ public class QuizClashCLI {
     cliWindow.printAnimated(screen.getScreenName(), 20);
     cliWindow.moveOnCanvas(0, 2);
     if (screen instanceof OptionScreen optionScreen) {
-      List<Displayable> optionList = optionScreen.getScreenOptions();
+      List<? extends Displayable> optionList = optionScreen.getScreenOptions();
       return selectFromOptions(optionList);
     } else if (screen instanceof TextInputScreen textInputScreen) {
       return enterTextFromRequest(textInputScreen.getInputRequest());
@@ -58,8 +58,8 @@ public class QuizClashCLI {
     return new IntegerAction(0);
   }
 
-  private Actionable<?> selectFromOptions(List<Displayable> optionList) throws InterruptedException {
-    ListIterator<Displayable> gameModeListIterator = optionList.listIterator();
+  private Actionable<?> selectFromOptions(List<? extends Displayable> optionList) throws InterruptedException {
+    ListIterator<? extends Displayable> gameModeListIterator = optionList.listIterator();
     while (gameModeListIterator.hasNext()) {
       cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " +
           gameModeListIterator.next().getDisplayName());

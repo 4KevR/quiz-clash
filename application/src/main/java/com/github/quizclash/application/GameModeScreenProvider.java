@@ -11,6 +11,7 @@ import java.util.List;
 public class GameModeScreenProvider implements ScreenProvider {
   private final Repository repository;
   private boolean hasNextScreen = true;
+  private ScreenProvider nextScreenProvider;
 
   public GameModeScreenProvider(Repository repository) {
     this.repository = repository;
@@ -21,14 +22,29 @@ public class GameModeScreenProvider implements ScreenProvider {
   }
 
   public void submitAction(Actionable<?> action) {
-    hasNextScreen = false;
+    int actionValue = (int) action.getActionValue();
+    if (actionValue > 0 && actionValue < 4) {
+      switch (actionValue) {
+        case 1:
+          this.nextScreenProvider = new TrainingScreenProvider(repository);
+          break;
+        case 2:
+          this.nextScreenProvider = new LocalMultiplayerScreenProvider(repository);
+          break;
+        case 3:
+          // TODO: Implement Multiplayer
+          this.nextScreenProvider = new MenuScreenProvider(repository);
+          break;
+      }
+      hasNextScreen = false;
+    }
   }
 
   public ScreenProvider getNextScreenProvider() {
-    return new TrainingScreenProvider(repository);
+    return this.nextScreenProvider;
   }
 
   public boolean hasNextScreen() {
-    return hasNextScreen;
+    return this.hasNextScreen;
   }
 }

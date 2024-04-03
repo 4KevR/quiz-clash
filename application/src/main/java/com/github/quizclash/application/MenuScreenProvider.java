@@ -1,41 +1,44 @@
 package com.github.quizclash.application;
 
-import com.github.quizclash.domain.Actionable;
-import com.github.quizclash.domain.MainMenuEnum;
-import com.github.quizclash.domain.OptionScreen;
-import com.github.quizclash.domain.Repository;
-import com.github.quizclash.domain.Screen;
-import com.github.quizclash.domain.ScreenProvider;
+import com.github.quizclash.domain.*;
+
 import java.util.List;
 
 public class MenuScreenProvider implements ScreenProvider {
   private final Repository repository;
   private boolean hasNextScreen = true;
-  private boolean isEnd = true;
+  private ScreenProvider nextScreenProvider;
 
   public MenuScreenProvider(Repository repository) {
     this.repository = repository;
   }
 
   public Screen fetchScreen() {
-    String userName = repository.getUserRepository().getUser().getName();
+    String userName = this.repository.getUserRepository().getUsers().get(0).getName();
     String menuTitle = "Hello " + userName + ", select an entry from the menu";
     return new OptionScreen(menuTitle, List.of(MainMenuEnum.values()));
   }
 
   public void submitAction(Actionable<?> action) {
     int actionValue = (int) action.getActionValue();
-    if (actionValue > 0 && actionValue < 3) {
-      isEnd = actionValue != 1;
+    if (actionValue > 0 && actionValue < 4) {
+      switch (actionValue) {
+        case 1:
+          this.nextScreenProvider = new GameModeScreenProvider(repository);
+          break;
+        case 2:
+          this.nextScreenProvider = new UserMenuScreenProvider(repository);
+          break;
+      }
       this.hasNextScreen = false;
     }
   }
 
   public ScreenProvider getNextScreenProvider() {
-    return isEnd ? null : new GameModeScreenProvider(repository);
+    return this.nextScreenProvider;
   }
 
   public boolean hasNextScreen() {
-    return hasNextScreen;
+    return this.hasNextScreen;
   }
 }
