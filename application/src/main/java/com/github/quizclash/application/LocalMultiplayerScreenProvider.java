@@ -12,7 +12,11 @@ public class LocalMultiplayerScreenProvider implements ScreenProvider {
 
     public LocalMultiplayerScreenProvider(Repository repository) {
         this.repository = repository;
-        Player[] players = {new Player("Player 1"), new Player("Player 2")};
+        List<User> users = this.repository.getUserRepository().getUsers();
+        Player[] players = new Player[users.size()];
+        for(int i = 0; i < users.size(); i++) {
+            players[i] = new Player(users.get(i).getName());
+        }
         this.quizGame = new QuizGame(repository.getCategoryRepository(),4, players);
     }
 

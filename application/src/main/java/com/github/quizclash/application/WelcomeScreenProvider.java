@@ -22,7 +22,7 @@ public class WelcomeScreenProvider implements ScreenProvider {
   public void submitAction(Actionable<?> action) {
     String actionValue = (String) action.getActionValue();
     User currentUser = new User(actionValue);
-    repository.getUserRepository().setUser(currentUser);
+    this.repository.getUserRepository().addUser(currentUser);
     this.hasNextScreen = false;
   }
 

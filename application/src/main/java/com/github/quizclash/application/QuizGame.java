@@ -21,7 +21,7 @@ public class QuizGame {
         this.players = players;
     }
 
-    public List<Displayable> getRemainingGameCategories() {
+    public List<? extends Displayable> getRemainingGameCategories() {
         return Arrays.stream(gameCategories).filter(category -> !playedCategoryIds.contains(category.getId())).collect(Collectors.toList());
     }
 

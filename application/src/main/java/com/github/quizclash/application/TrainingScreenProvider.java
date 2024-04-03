@@ -12,7 +12,7 @@ public class TrainingScreenProvider implements ScreenProvider {
 
     public TrainingScreenProvider(Repository repository) {
         this.repository = repository;
-        String playerName = repository.getUserRepository().getUser().getName();
+        String playerName = this.repository.getUserRepository().getUsers().get(0).getName();
         Player[] trainingPlayer = {new Player(playerName)};
         this.quizGame = new QuizGame(repository.getCategoryRepository(), 4, trainingPlayer);
     }
