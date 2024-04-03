@@ -38,14 +38,13 @@ public class GameModeScreenProvider implements ScreenProvider {
       }
       hasNextScreen = false;
     }
-    hasNextScreen = false;
   }
 
   public ScreenProvider getNextScreenProvider() {
-    return nextScreenProvider;
+    return this.nextScreenProvider;
   }
 
   public boolean hasNextScreen() {
-    return hasNextScreen;
+    return this.hasNextScreen;
   }
 }

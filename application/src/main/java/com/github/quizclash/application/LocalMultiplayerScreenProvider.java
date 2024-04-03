@@ -17,7 +17,7 @@ public class LocalMultiplayerScreenProvider implements ScreenProvider {
         for(int i = 0; i < users.size(); i++) {
             players[i] = new Player(users.get(i).getName());
         }
-        this.quizGame = new QuizGame(repository.getCategoryRepository(),4, players);
+        this.quizGame = new QuizGame(repository.getCategoryRepository(), 4, players);
     }
 
     public Screen fetchScreen() {

@@ -22,7 +22,7 @@ public class MenuScreenProvider implements ScreenProvider {
   public void submitAction(Actionable<?> action) {
     int actionValue = (int) action.getActionValue();
     if (actionValue > 0 && actionValue < 4) {
-      switch(actionValue){
+      switch (actionValue) {
         case 1:
           this.nextScreenProvider = new GameModeScreenProvider(repository);
           break;

@@ -5,7 +5,6 @@ import com.github.quizclash.domain.*;
 import java.util.List;
 
 public class UserMenuScreenProvider implements ScreenProvider {
-
     private final Repository repository;
     private boolean hasNextScreen = true;
     private ScreenProvider nextScreenProvider;
