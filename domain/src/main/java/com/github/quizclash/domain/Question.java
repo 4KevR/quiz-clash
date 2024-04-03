@@ -1,5 +1,10 @@
 package com.github.quizclash.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class Question {
   private final int id;
   private final String question;
@@ -8,7 +13,9 @@ public class Question {
   public Question(int id, String question, QuestionOption[] questionOptions)throws InvalidQuestionFormatException {
     this.id = id;
     this.question = question;
-    this.questionOptions = QuestionValidator.validate(questionOptions);
+    List<QuestionOption> options = Arrays.asList(QuestionValidator.validate(questionOptions));
+    Collections.shuffle(options);
+    this.questionOptions = options.toArray(new QuestionOption[0]);
   }
 
   public int getId() {
