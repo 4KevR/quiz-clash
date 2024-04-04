@@ -101,6 +101,17 @@ public class CLIWindowManager {
     return scanner.nextLine();
   }
 
+  public int getNumberInput(String request) {
+    this.print(request + ": ");
+    if (scanner.hasNextInt()) {
+      int number = scanner.nextInt();
+      scanner.nextLine();
+      return number;
+    }
+    scanner.nextLine();
+    return 0;
+  }
+
   public int getRangeSelect(int lowerBound, int higherBound) {
     this.print(String.format("Select option (%d - %d): ", lowerBound, higherBound));
     if (scanner.hasNextInt()) {

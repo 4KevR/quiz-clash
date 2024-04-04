@@ -21,14 +21,17 @@ public class MenuScreenProvider implements ScreenProvider {
 
   public void submitAction(Actionable<?> action) {
     int actionValue = (int) action.getActionValue();
-    if (actionValue > 0 && actionValue < 4) {
+    if (actionValue > 0 && actionValue < 5) {
       switch (actionValue) {
         case 1:
           this.nextScreenProvider = new GameModeScreenProvider(repository);
           break;
-        case 2:
-          this.nextScreenProvider = new UserMenuScreenProvider(repository);
+        case 2: 
+          this.nextScreenProvider = new GameSettingsScreenProvider(repository);
           break;
+        case 3:
+          this.nextScreenProvider = new UserMenuScreenProvider(repository);
+    	    break;
       }
       this.hasNextScreen = false;
     }
