@@ -2,13 +2,12 @@ package com.github.quizclash.application;
 
 import com.github.quizclash.domain.*;
 
-import java.util.Collections;
 import java.util.List;
 
-public class RemoveUserScreenProvider implements ScreenProvider {
+public class RemoveUserScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private boolean hasNextScreen = true;
-    private ScreenProvider nextScreenProvider;
+    private ScreenProviderType nextScreenProviderType;
 
     public RemoveUserScreenProvider (Repository repository){
         this.repository = repository;
@@ -20,18 +19,18 @@ public class RemoveUserScreenProvider implements ScreenProvider {
         return new OptionScreen(menuTitle, users);
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
         List<User> users = this.repository.getUserRepository().getUsers();
         if (actionValue > 0 && actionValue <= users.size()) {
             this.repository.getUserRepository().removeUser(users.get(actionValue - 1));
         }
-        this.nextScreenProvider = new UserMenuScreenProvider(this.repository);
+        this.nextScreenProviderType = ScreenProviderType.USER_MENU;
         this.hasNextScreen = false;
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return this.nextScreenProvider;
+    public ScreenProviderType getNextScreenProviderType() {
+        return this.nextScreenProviderType;
     }
 
     public boolean hasNextScreen() {

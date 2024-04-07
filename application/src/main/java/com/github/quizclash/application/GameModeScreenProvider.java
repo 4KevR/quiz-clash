@@ -1,17 +1,13 @@
 package com.github.quizclash.application;
 
-import com.github.quizclash.domain.Actionable;
-import com.github.quizclash.domain.GameModeEnum;
-import com.github.quizclash.domain.OptionScreen;
-import com.github.quizclash.domain.Repository;
-import com.github.quizclash.domain.Screen;
-import com.github.quizclash.domain.ScreenProvider;
+import com.github.quizclash.domain.*;
+
 import java.util.List;
 
-public class GameModeScreenProvider implements ScreenProvider {
+public class GameModeScreenProvider implements ScreenProvider, IntegerActionable {
   private final Repository repository;
   private boolean hasNextScreen = true;
-  private ScreenProvider nextScreenProvider;
+  private ScreenProviderType nextScreenProviderType;
 
   public GameModeScreenProvider(Repository repository) {
     this.repository = repository;
@@ -21,27 +17,27 @@ public class GameModeScreenProvider implements ScreenProvider {
     return new OptionScreen("Select Game Mode", List.of(GameModeEnum.values()));
   }
 
-  public void submitAction(Actionable<?> action) {
-    int actionValue = (int) action.getActionValue();
+  public void submitAction(Action<Integer> action) {
+    int actionValue = action.getActionValue();
     if (actionValue > 0 && actionValue < 4) {
       switch (actionValue) {
         case 1:
-          this.nextScreenProvider = new TrainingScreenProvider(repository);
+          this.nextScreenProviderType = ScreenProviderType.TRAINING;
           break;
         case 2:
-          this.nextScreenProvider = new LocalMultiplayerScreenProvider(repository);
+          this.nextScreenProviderType = ScreenProviderType.LOCAL_MULTIPLAYER;
           break;
         case 3:
           // TODO: Implement Multiplayer
-          this.nextScreenProvider = new MenuScreenProvider(repository);
+          this.nextScreenProviderType = ScreenProviderType.MENU;
           break;
       }
       hasNextScreen = false;
     }
   }
 
-  public ScreenProvider getNextScreenProvider() {
-    return this.nextScreenProvider;
+  public ScreenProviderType getNextScreenProviderType() {
+    return this.nextScreenProviderType;
   }
 
   public boolean hasNextScreen() {

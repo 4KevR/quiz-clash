@@ -5,7 +5,7 @@ import com.github.quizclash.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingScreenProvider implements ScreenProvider {
+public class TrainingScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private final QuizGame quizGame;
     private boolean hasNextScreen = true;
@@ -32,8 +32,8 @@ public class TrainingScreenProvider implements ScreenProvider {
         }
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
         if (quizGame.isFinished()) {
             hasNextScreen = false;
         } else if (quizGame.isSelectingCategory()) {
@@ -43,8 +43,8 @@ public class TrainingScreenProvider implements ScreenProvider {
         }
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return new MenuScreenProvider(repository);
+    public ScreenProviderType getNextScreenProviderType() {
+        return ScreenProviderType.MENU;
     }
 
     public boolean hasNextScreen() {

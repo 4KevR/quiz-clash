@@ -4,10 +4,10 @@ import com.github.quizclash.domain.*;
 
 import java.util.List;
 
-public class UserMenuScreenProvider implements ScreenProvider {
+public class UserMenuScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private boolean hasNextScreen = true;
-    private ScreenProvider nextScreenProvider;
+    private ScreenProviderType nextScreenProviderType;
 
     public UserMenuScreenProvider(Repository repository) {
         this.repository = repository;
@@ -18,25 +18,25 @@ public class UserMenuScreenProvider implements ScreenProvider {
         return new OptionScreen(menuTitle, List.of(UserMenuEnum.values()));
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
         if(actionValue > 0 && actionValue < 4) {
             switch(actionValue){
             case 1:
-                this.nextScreenProvider = new AddUserScreenProvider(repository);
+                this.nextScreenProviderType = ScreenProviderType.ADD_USER;
                 break;
             case 2:
-                this.nextScreenProvider = new RemoveUserScreenProvider(repository);
+                this.nextScreenProviderType = ScreenProviderType.REMOVE_USER;
                 break;
             default:
-                this.nextScreenProvider = new MenuScreenProvider(repository);
+                this.nextScreenProviderType = ScreenProviderType.MENU;
             }
             this.hasNextScreen = false;
         }
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return this.nextScreenProvider;
+    public ScreenProviderType getNextScreenProviderType() {
+        return this.nextScreenProviderType;
     }
 
     public boolean hasNextScreen() {

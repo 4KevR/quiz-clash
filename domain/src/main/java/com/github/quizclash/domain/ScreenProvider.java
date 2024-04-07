@@ -2,7 +2,6 @@ package com.github.quizclash.domain;
 
 public interface ScreenProvider {
   Screen fetchScreen();
-  void submitAction(Actionable<?> action);
-  ScreenProvider getNextScreenProvider();
+  ScreenProviderType getNextScreenProviderType();
   boolean hasNextScreen();
 }
