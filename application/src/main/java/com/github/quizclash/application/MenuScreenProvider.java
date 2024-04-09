@@ -21,12 +21,15 @@ public class MenuScreenProvider implements ScreenProvider, IntegerActionable {
 
   public void submitAction(Action<Integer> action) {
     int actionValue = action.getActionValue();
-    if (actionValue > 0 && actionValue < 4) {
+    if (actionValue > 0 && actionValue < 5) {
       switch (actionValue) {
         case 1:
           this.nextScreenProviderType = ScreenProviderType.GAME_MODE;
           break;
         case 2:
+          this.nextScreenProviderType = ScreenProviderType.GAME_SETTINGS;
+          break;
+        case 3:
           this.nextScreenProviderType = ScreenProviderType.USER_MENU;
           break;
       }

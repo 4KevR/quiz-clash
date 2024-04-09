@@ -51,6 +51,9 @@ public class QuizClashCLI {
     } else if (screen instanceof TextInputScreen textInputScreen) {
       Action<String> stringAction = enterTextFromRequest(textInputScreen.getInputRequest());
       screenProviderManager.submitStringAction(stringAction);
+    } else if (screen instanceof NumberInputScreen numberInputScreen) {
+      Action<Integer> integerAction = enterNumberFromRequest(numberInputScreen.getInputRequest());
+      screenProviderManager.submitIntegerAction(integerAction);
     } else if (screen instanceof InformationScreen informationScreen) {
       for (String line : informationScreen.getLines()) {
         cliWindow.println(line);
@@ -87,5 +90,10 @@ public class QuizClashCLI {
   private Action<String> enterTextFromRequest(String request) {
     cliWindow.moveToActionField();
     return new Action<>(cliWindow.getTextInput(request));
+  }
+
+  private Action<Integer> enterNumberFromRequest(String request) {
+    cliWindow.moveToActionField();
+    return new Action<>(cliWindow.getNumberInput(request));
   }
 }

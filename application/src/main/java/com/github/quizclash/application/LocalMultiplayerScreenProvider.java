@@ -3,6 +3,7 @@ package com.github.quizclash.application;
 import com.github.quizclash.domain.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class LocalMultiplayerScreenProvider implements ScreenProvider, IntegerActionable {
@@ -13,11 +14,12 @@ public class LocalMultiplayerScreenProvider implements ScreenProvider, IntegerAc
     public LocalMultiplayerScreenProvider(Repository repository) {
         this.repository = repository;
         List<User> users = this.repository.getUserRepository().getUsers();
+        Collections.shuffle(users);
         Player[] players = new Player[users.size()];
         for(int i = 0; i < users.size(); i++) {
             players[i] = new Player(users.get(i).getName());
         }
-        this.quizGame = new QuizGame(repository.getCategoryRepository(), 4, players);
+        this.quizGame = new QuizGame(repository.getCategoryRepository(), repository.getSettingsRepository().getCategoriesPerGameAndUser() * repository.getUserRepository().getUsers().size(), players);
     }
 
     public Screen fetchScreen() {
