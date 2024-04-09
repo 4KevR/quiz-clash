@@ -1,15 +1,11 @@
 package com.github.quizclash.application;
 
-import com.github.quizclash.domain.Actionable;
-import com.github.quizclash.domain.NumberInputScreen;
-import com.github.quizclash.domain.Repository;
-import com.github.quizclash.domain.Screen;
-import com.github.quizclash.domain.ScreenProvider;
+import com.github.quizclash.domain.*;
 
-public class ChangeCategorySettingScreenProvider implements ScreenProvider{
+public class ChangeCategorySettingScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private boolean hasNextScreen = true;
-    private ScreenProvider nextScreenProvider;
+    private ScreenProviderType nextScreenProviderType;
 
     public ChangeCategorySettingScreenProvider(Repository repository) {
         this.repository = repository;
@@ -19,17 +15,17 @@ public class ChangeCategorySettingScreenProvider implements ScreenProvider{
         return new NumberInputScreen("How many categories do you want to play per user in one game?", "Enter a number");
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
         if(actionValue > 0) {
             this.repository.getSettingsRepository().setCategoriesPerGameAndUser(actionValue);
-            this.nextScreenProvider = new GameSettingsScreenProvider(this.repository);
+            this.nextScreenProviderType = ScreenProviderType.GAME_SETTINGS;
             this.hasNextScreen = false;
         }
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return this.nextScreenProvider;
+    public ScreenProviderType getNextScreenProviderType() {
+        return this.nextScreenProviderType;
     }
 
     public boolean hasNextScreen() {

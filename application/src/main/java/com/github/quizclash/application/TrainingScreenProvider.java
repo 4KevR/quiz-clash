@@ -22,6 +22,7 @@ public class TrainingScreenProvider implements ScreenProvider, IntegerActionable
             List<String> lines = new ArrayList<>();
             Player trainingPlayer = quizGame.getPlayers()[0];
             lines.add(String.format("%s - %d points", trainingPlayer.getPlayerName(), trainingPlayer.getCurrentScore().getIntScore()));
+            hasNextScreen = false;
             return new InformationScreen("Result", lines);
         } else if (quizGame.isSelectingCategory()) {
             String playerName = quizGame.getCurrentPlayer().getPlayerName();
@@ -34,9 +35,7 @@ public class TrainingScreenProvider implements ScreenProvider, IntegerActionable
 
     public void submitAction(Action<Integer> action) {
         int actionValue = action.getActionValue();
-        if (quizGame.isFinished()) {
-            hasNextScreen = false;
-        } else if (quizGame.isSelectingCategory()) {
+        if (quizGame.isSelectingCategory()) {
             quizGame.setCurrentCategory(actionValue - 1);
         } else {
             quizGame.submitQuestionAnswer(actionValue - 1);

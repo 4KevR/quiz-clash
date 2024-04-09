@@ -2,17 +2,12 @@ package com.github.quizclash.application;
 
 import java.util.List;
 
-import com.github.quizclash.domain.Actionable;
-import com.github.quizclash.domain.GameSettingsEnum;
-import com.github.quizclash.domain.OptionScreen;
-import com.github.quizclash.domain.Repository;
-import com.github.quizclash.domain.Screen;
-import com.github.quizclash.domain.ScreenProvider;
+import com.github.quizclash.domain.*;
 
-public class GameSettingsScreenProvider implements ScreenProvider{
+public class GameSettingsScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private boolean hasNextScreen = true;
-    private ScreenProvider nextScreenProvider;
+    private ScreenProviderType nextScreenProviderType;
 
     public GameSettingsScreenProvider(Repository repository) {
         this.repository = repository;
@@ -23,23 +18,23 @@ public class GameSettingsScreenProvider implements ScreenProvider{
         return new OptionScreen(menuTitle, List.of(GameSettingsEnum.values()));
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
         if(actionValue > 0 && actionValue < 3) {
             switch (actionValue) {
                 case 1:
-                    this.nextScreenProvider = new ChangeCategorySettingScreenProvider(this.repository);
+                    this.nextScreenProviderType = ScreenProviderType.CHANGE_CATEGORY_SETTINGS;
                     break;
                 default:
-                    this.nextScreenProvider = new MenuScreenProvider(this.repository);
+                    this.nextScreenProviderType = ScreenProviderType.MENU;
                     break;
                 }
             this.hasNextScreen = false;
         }
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return this.nextScreenProvider;
+    public ScreenProviderType getNextScreenProviderType() {
+        return this.nextScreenProviderType;
     }
 
     public boolean hasNextScreen() {

@@ -23,7 +23,9 @@ public class ScreenProviderManager {
         }
         switch (nextScreenProviderType) {
             case ADD_USER -> currentScreenProvider = new AddUserScreenProvider(repository);
+            case CHANGE_CATEGORY_SETTINGS -> currentScreenProvider = new ChangeCategorySettingScreenProvider(repository);
             case GAME_MODE -> currentScreenProvider = new GameModeScreenProvider(repository);
+            case GAME_SETTINGS -> currentScreenProvider = new GameSettingsScreenProvider(repository);
             case LOCAL_MULTIPLAYER -> currentScreenProvider = new LocalMultiplayerScreenProvider(repository);
             case MENU -> currentScreenProvider = new MenuScreenProvider(repository);
             case REMOVE_USER -> currentScreenProvider = new RemoveUserScreenProvider(repository);
