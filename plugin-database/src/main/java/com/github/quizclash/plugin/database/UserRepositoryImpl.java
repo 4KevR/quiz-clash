@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepositoryImpl implements UserRepository {
-  private List<User> users = new ArrayList<>();
+  private final List<User> users = new ArrayList<>();
 
   public List<User> getUsers() {
     return this.users;

@@ -1,6 +1,6 @@
-package com.github.quizclash.domain;
+package com.github.quizclash.application.screen;
 
-public class NumberInputScreen extends Screen{
+public class NumberInputScreen extends Screen {
     private final String inputRequest;
     public NumberInputScreen(String screenName, String inputRequest) {
         super(screenName);

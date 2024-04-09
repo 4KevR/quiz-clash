@@ -1,6 +1,6 @@
 package com.github.quizclash.plugin.main;
 
-import com.github.quizclash.application.InvalidActionException;
+import com.github.quizclash.application.action.InvalidActionException;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Repository;
 import com.github.quizclash.domain.SettingsRepository;

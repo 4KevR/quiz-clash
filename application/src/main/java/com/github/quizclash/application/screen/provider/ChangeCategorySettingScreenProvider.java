@@ -1,5 +1,9 @@
-package com.github.quizclash.application;
+package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.screen.Screen;
+import com.github.quizclash.application.action.Action;
+import com.github.quizclash.application.action.IntegerActionable;
+import com.github.quizclash.application.screen.NumberInputScreen;
 import com.github.quizclash.domain.*;
 
 public class ChangeCategorySettingScreenProvider implements ScreenProvider, IntegerActionable {

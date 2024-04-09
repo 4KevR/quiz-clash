@@ -1,4 +1,4 @@
-package com.github.quizclash.domain;
+package com.github.quizclash.application.screen;
 
 import java.util.List;
 

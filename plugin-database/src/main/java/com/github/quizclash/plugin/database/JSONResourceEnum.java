@@ -1,6 +1,6 @@
 package com.github.quizclash.plugin.database;
 
-import com.github.quizclash.domain.Resource;
+import com.github.quizclash.application.Resource;
 
 public enum JSONResourceEnum implements Resource {
   CATEGORIES("categories.json");

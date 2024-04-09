@@ -1,7 +1,11 @@
 package com.github.quizclash.plugin.cli;
 
-import com.github.quizclash.application.InvalidActionException;
-import com.github.quizclash.application.ScreenProviderManager;
+import com.github.quizclash.application.*;
+import com.github.quizclash.application.action.Action;
+import com.github.quizclash.application.action.InvalidActionException;
+import com.github.quizclash.application.screen.*;
+import com.github.quizclash.domain.Displayable;
+import com.github.quizclash.application.screen.provider.ScreenProvider;
 import com.github.quizclash.domain.*;
 
 import java.io.IOException;

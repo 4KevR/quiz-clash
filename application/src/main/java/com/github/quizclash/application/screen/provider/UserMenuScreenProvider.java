@@ -1,5 +1,10 @@
-package com.github.quizclash.application;
+package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.screen.OptionScreen;
+import com.github.quizclash.application.screen.Screen;
+import com.github.quizclash.application.screen.displayables.UserMenuEnum;
+import com.github.quizclash.application.action.Action;
+import com.github.quizclash.application.action.IntegerActionable;
 import com.github.quizclash.domain.*;
 
 import java.util.List;
