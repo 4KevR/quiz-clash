@@ -1,6 +1,8 @@
 package com.github.quizclash.plugin.main;
 
+import com.github.quizclash.application.ScreenProviderManager;
 import com.github.quizclash.application.action.InvalidActionException;
+import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Repository;
 import com.github.quizclash.domain.SettingsRepository;
@@ -17,8 +19,10 @@ public class Starter {
     SettingsRepository settingsRepository = new SettingsRepositoryImpl();
     UserRepositoryImpl userRepository = new UserRepositoryImpl();
     Repository repository = new RepositoryImpl(categoryRepository, settingsRepository, userRepository);
-    QuizClashCLI quizClashCLI = new QuizClashCLI(100, 30, repository);
-    quizClashCLI.run();
+    QuizClashCLI quizClashCLI = new QuizClashCLI(100, 30);
+    ScreenFactory cliScreenFactory = quizClashCLI.getCLIScreenFactory();
+    ScreenProviderManager screenProviderManager = new ScreenProviderManager(repository, cliScreenFactory);
+    screenProviderManager.run();
     quizClashCLI.destroy();
   }
 }

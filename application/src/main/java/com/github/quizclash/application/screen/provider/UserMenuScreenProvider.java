@@ -1,50 +1,44 @@
 package com.github.quizclash.application.screen.provider;
 
 import com.github.quizclash.application.screen.OptionScreen;
-import com.github.quizclash.application.screen.Screen;
+import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.displayables.UserMenuEnum;
-import com.github.quizclash.application.action.Action;
-import com.github.quizclash.application.action.IntegerActionable;
 import com.github.quizclash.domain.*;
 
 import java.util.List;
 
-public class UserMenuScreenProvider implements ScreenProvider, IntegerActionable {
+public class UserMenuScreenProvider implements ScreenProvider {
     private final Repository repository;
-    private boolean hasNextScreen = true;
+    private final ScreenFactory screenFactory;
     private ScreenProviderType nextScreenProviderType;
 
-    public UserMenuScreenProvider(Repository repository) {
+    public UserMenuScreenProvider(Repository repository, ScreenFactory screenFactory) {
         this.repository = repository;
+        this.screenFactory = screenFactory;
     }
 
-    public Screen fetchScreen() {
+    @Override
+    public void execute() throws InterruptedException {
+        int selection = 0;
         String menuTitle = "What do you want to do?";
-        return new OptionScreen(menuTitle, List.of(UserMenuEnum.values()));
-    }
-
-    public void submitAction(Action<Integer> action) {
-        int actionValue = action.getActionValue();
-        if(actionValue > 0 && actionValue < 4) {
-            switch(actionValue){
-            case 1:
-                this.nextScreenProviderType = ScreenProviderType.ADD_USER;
-                break;
-            case 2:
-                this.nextScreenProviderType = ScreenProviderType.REMOVE_USER;
-                break;
-            default:
-                this.nextScreenProviderType = ScreenProviderType.MENU;
+        while (selection <= 0 || selection > 3) {
+            OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle, List.of(UserMenuEnum.values()));
+            optionScreen.render();
+            selection = optionScreen.getOptionInput().getActionValue();
+            switch (selection) {
+                case 1:
+                    this.nextScreenProviderType = ScreenProviderType.ADD_USER;
+                    break;
+                case 2:
+                    this.nextScreenProviderType = ScreenProviderType.REMOVE_USER;
+                    break;
+                default:
+                    this.nextScreenProviderType = ScreenProviderType.MENU;
             }
-            this.hasNextScreen = false;
         }
     }
 
     public ScreenProviderType getNextScreenProviderType() {
         return this.nextScreenProviderType;
-    }
-
-    public boolean hasNextScreen() {
-        return this.hasNextScreen;
     }
 }

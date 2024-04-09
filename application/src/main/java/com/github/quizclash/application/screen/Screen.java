@@ -1,6 +1,6 @@
 package com.github.quizclash.application.screen;
 
-public class Screen {
+public abstract class Screen {
   private final String screenName;
 
   public Screen(String screenName) {
@@ -10,4 +10,6 @@ public class Screen {
   public String getScreenName() {
     return screenName;
   }
+
+  public abstract void render() throws InterruptedException;
 }

@@ -2,7 +2,7 @@ package com.github.quizclash.application.screen;
 
 import java.util.List;
 
-public class InformationScreen extends Screen {
+public abstract class InformationScreen extends Screen {
     private final List<String> lines;
     public InformationScreen(String screenName, List<String> lines) {
         super(screenName);

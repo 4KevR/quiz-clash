@@ -1,37 +1,30 @@
 package com.github.quizclash.application.screen.provider;
 
-import com.github.quizclash.application.screen.Screen;
 import com.github.quizclash.application.action.Action;
-import com.github.quizclash.application.action.StringActionable;
+import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.TextInputScreen;
 import com.github.quizclash.domain.*;
 
-public class AddUserScreenProvider implements ScreenProvider, StringActionable {
-
+public class AddUserScreenProvider implements ScreenProvider {
     private final Repository repository;
-    private boolean hasNextScreen = true;
+    private final ScreenFactory screenFactory;
     private ScreenProviderType nextScreenProviderType;
 
-    public AddUserScreenProvider(Repository repository){
+    public AddUserScreenProvider(Repository repository, ScreenFactory screenFactory){
         this.repository = repository;
+        this.screenFactory = screenFactory;
     }
 
-    public Screen fetchScreen() {
-        return new TextInputScreen("Add another player", "Enter name");
-    }
-
-    public void submitAction(Action<String> action) {
-        String actionValue =  action.getActionValue();
-        this.repository.getUserRepository().addUser(new User(actionValue));
+    @Override
+    public void execute() throws InterruptedException {
+        TextInputScreen textInputScreen = screenFactory.createTextInputScreen("Add another player", "Enter name");
+        textInputScreen.render();
+        Action<String> action = textInputScreen.getTextInput();
+        this.repository.getUserRepository().addUser(new User(action.getActionValue()));
         this.nextScreenProviderType = ScreenProviderType.USER_MENU;
-        this.hasNextScreen = false;
     }
 
     public ScreenProviderType getNextScreenProviderType() {
         return this.nextScreenProviderType;
-    }
-
-    public boolean hasNextScreen() {
-        return this.hasNextScreen;
     }
 }

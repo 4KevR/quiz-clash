@@ -2,47 +2,41 @@ package com.github.quizclash.application.screen.provider;
 
 import java.util.List;
 
+import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.displayables.GameSettingsEnum;
 import com.github.quizclash.application.screen.OptionScreen;
-import com.github.quizclash.application.screen.Screen;
-import com.github.quizclash.application.action.Action;
-import com.github.quizclash.application.action.IntegerActionable;
 import com.github.quizclash.domain.*;
 
-public class GameSettingsScreenProvider implements ScreenProvider, IntegerActionable {
+public class GameSettingsScreenProvider implements ScreenProvider {
     private final Repository repository;
-    private boolean hasNextScreen = true;
+    private final ScreenFactory screenFactory;
     private ScreenProviderType nextScreenProviderType;
 
-    public GameSettingsScreenProvider(Repository repository) {
+    public GameSettingsScreenProvider(Repository repository, ScreenFactory screenFactory) {
         this.repository = repository;
+        this.screenFactory = screenFactory;
     }
 
-    public Screen fetchScreen() {
+    @Override
+    public void execute() throws InterruptedException {
+        int selection = 0;
         String menuTitle = "Which Settings do you want to change?";
-        return new OptionScreen(menuTitle, List.of(GameSettingsEnum.values()));
-    }
-
-    public void submitAction(Action<Integer> action) {
-        int actionValue = action.getActionValue();
-        if(actionValue > 0 && actionValue < 3) {
-            switch (actionValue) {
+        while (selection <= 0 || selection > 3) {
+            OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle, List.of(GameSettingsEnum.values()));
+            optionScreen.render();
+            selection = optionScreen.getOptionInput().getActionValue();
+            switch (selection) {
                 case 1:
                     this.nextScreenProviderType = ScreenProviderType.CHANGE_CATEGORY_SETTINGS;
                     break;
                 default:
                     this.nextScreenProviderType = ScreenProviderType.MENU;
                     break;
-                }
-            this.hasNextScreen = false;
+            }
         }
     }
 
     public ScreenProviderType getNextScreenProviderType() {
         return this.nextScreenProviderType;
-    }
-
-    public boolean hasNextScreen() {
-        return this.hasNextScreen;
     }
 }
