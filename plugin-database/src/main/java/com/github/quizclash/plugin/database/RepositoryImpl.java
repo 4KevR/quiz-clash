@@ -15,7 +15,7 @@ public class RepositoryImpl implements Repository {
     this.settingsRepository = settingsRepository;
     this.userRepository = userRepository;
   }
-  
+
   public CategoryRepository getCategoryRepository() {
     return categoryRepository;
   } 

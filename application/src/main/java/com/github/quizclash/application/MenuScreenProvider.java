@@ -26,7 +26,7 @@ public class MenuScreenProvider implements ScreenProvider {
         case 1:
           this.nextScreenProvider = new GameModeScreenProvider(repository);
           break;
-        case 2: 
+        case 2:
           this.nextScreenProvider = new GameSettingsScreenProvider(repository);
           break;
         case 3:
