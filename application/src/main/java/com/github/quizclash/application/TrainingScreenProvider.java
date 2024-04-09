@@ -5,7 +5,7 @@ import com.github.quizclash.domain.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrainingScreenProvider implements ScreenProvider {
+public class TrainingScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private final QuizGame quizGame;
     private boolean hasNextScreen = true;
@@ -22,6 +22,7 @@ public class TrainingScreenProvider implements ScreenProvider {
             List<String> lines = new ArrayList<>();
             Player trainingPlayer = quizGame.getPlayers()[0];
             lines.add(String.format("%s - %d points", trainingPlayer.getPlayerName(), trainingPlayer.getCurrentScore().getIntScore()));
+            hasNextScreen = false;
             return new InformationScreen("Result", lines);
         } else if (quizGame.isSelectingCategory()) {
             String playerName = quizGame.getCurrentPlayer().getPlayerName();
@@ -32,19 +33,17 @@ public class TrainingScreenProvider implements ScreenProvider {
         }
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
-        if (quizGame.isFinished()) {
-            hasNextScreen = false;
-        } else if (quizGame.isSelectingCategory()) {
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
+        if (quizGame.isSelectingCategory()) {
             quizGame.setCurrentCategory(actionValue - 1);
         } else {
             quizGame.submitQuestionAnswer(actionValue - 1);
         }
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return new MenuScreenProvider(repository);
+    public ScreenProviderType getNextScreenProviderType() {
+        return ScreenProviderType.MENU;
     }
 
     public boolean hasNextScreen() {

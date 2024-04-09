@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class LocalMultiplayerScreenProvider implements ScreenProvider {
+public class LocalMultiplayerScreenProvider implements ScreenProvider, IntegerActionable {
     private final Repository repository;
     private final QuizGame quizGame;
     private boolean hasNextScreen = true;
@@ -29,6 +29,7 @@ public class LocalMultiplayerScreenProvider implements ScreenProvider {
             for(Player player : players) {
                 lines.add(String.format("%s - %d points", player.getPlayerName(), player.getCurrentScore().getIntScore()));
             }
+            hasNextScreen = false;
             return new InformationScreen("Result", lines);
         } else if (quizGame.isSelectingCategory()) {
             String playerName = quizGame.getCurrentPlayer().getPlayerName();
@@ -39,19 +40,17 @@ public class LocalMultiplayerScreenProvider implements ScreenProvider {
         }
     }
 
-    public void submitAction(Actionable<?> action) {
-        int actionValue = (int) action.getActionValue();
-        if(quizGame.isFinished()) {
-            hasNextScreen = false;
-        } else if (quizGame.isSelectingCategory()) {
+    public void submitAction(Action<Integer> action) {
+        int actionValue = action.getActionValue();
+        if (quizGame.isSelectingCategory()) {
             quizGame.setCurrentCategory(actionValue - 1);
         } else {
             quizGame.submitQuestionAnswer(actionValue - 1);
         }
     }
 
-    public ScreenProvider getNextScreenProvider() {
-        return new MenuScreenProvider(repository);
+    public ScreenProviderType getNextScreenProviderType() {
+        return ScreenProviderType.MENU;
     }
 
     public boolean hasNextScreen() {

@@ -1,13 +1,8 @@
 package com.github.quizclash.application;
 
-import com.github.quizclash.domain.Actionable;
-import com.github.quizclash.domain.Repository;
-import com.github.quizclash.domain.Screen;
-import com.github.quizclash.domain.ScreenProvider;
-import com.github.quizclash.domain.TextInputScreen;
-import com.github.quizclash.domain.User;
+import com.github.quizclash.domain.*;
 
-public class WelcomeScreenProvider implements ScreenProvider {
+public class WelcomeScreenProvider implements ScreenProvider, StringActionable {
   private final Repository repository;
   private boolean hasNextScreen = true;
 
@@ -19,15 +14,14 @@ public class WelcomeScreenProvider implements ScreenProvider {
     return new TextInputScreen("Your name is required to start the game!", "Enter your name");
   }
 
-  public void submitAction(Actionable<?> action) {
-    String actionValue = (String) action.getActionValue();
-    User currentUser = new User(actionValue);
+  public void submitAction(Action<String> action) {
+    User currentUser = new User(action.getActionValue());
     this.repository.getUserRepository().addUser(currentUser);
     this.hasNextScreen = false;
   }
 
-  public ScreenProvider getNextScreenProvider() {
-    return new MenuScreenProvider(repository);
+  public ScreenProviderType getNextScreenProviderType() {
+    return ScreenProviderType.MENU;
   }
 
   public boolean hasNextScreen() {

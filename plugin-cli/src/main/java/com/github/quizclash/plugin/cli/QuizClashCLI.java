@@ -1,6 +1,7 @@
 package com.github.quizclash.plugin.cli;
 
-import com.github.quizclash.application.WelcomeScreenProvider;
+import com.github.quizclash.application.InvalidActionException;
+import com.github.quizclash.application.ScreenProviderManager;
 import com.github.quizclash.domain.*;
 
 import java.io.IOException;
@@ -9,11 +10,11 @@ import java.util.ListIterator;
 
 public class QuizClashCLI {
   private final CLIWindowManager cliWindow;
-  private ScreenProvider currentScreenProvider;
+  private final ScreenProviderManager screenProviderManager;
 
   public QuizClashCLI(int sizeX, int sizeY, Repository repository) throws InterruptedException, IOException {
     this.cliWindow = new CLIWindowManager(sizeX, sizeY);
-    this.currentScreenProvider = new WelcomeScreenProvider(repository);
+    this.screenProviderManager = new ScreenProviderManager(repository);
     cliWindow.printAnimated("Welcome to ...", 50);
     Thread.sleep(500);
     cliWindow.clearAllCanvas();
@@ -22,13 +23,13 @@ public class QuizClashCLI {
     Thread.sleep(2000);
   }
 
-  public void run() throws InterruptedException {
-    while (currentScreenProvider != null) {
+  public void run() throws InterruptedException, InvalidActionException {
+    ScreenProvider currentScreenProvider;
+    while ((currentScreenProvider = screenProviderManager.getCurrentScreenProvider()) != null) {
       while (currentScreenProvider.hasNextScreen()) {
-        Actionable<?> action = render(currentScreenProvider.fetchScreen());
-        currentScreenProvider.submitAction(action);
+        render(currentScreenProvider.fetchScreen());
       }
-      currentScreenProvider = currentScreenProvider.getNextScreenProvider();
+      screenProviderManager.updateScreenProvider();
     }
   }
 
@@ -39,17 +40,20 @@ public class QuizClashCLI {
     cliWindow.clearCLI();
   }
 
-  private Actionable<?> render(Screen screen) throws InterruptedException {
+  private void render(Screen screen) throws InterruptedException, InvalidActionException {
     cliWindow.clearAllCanvas();
     cliWindow.printAnimated(screen.getScreenName(), 20);
     cliWindow.moveOnCanvas(0, 2);
     if (screen instanceof OptionScreen optionScreen) {
       List<? extends Displayable> optionList = optionScreen.getScreenOptions();
-      return selectFromOptions(optionList);
+      Action<Integer> integerAction =  selectFromOptions(optionList);
+      screenProviderManager.submitIntegerAction(integerAction);
     } else if (screen instanceof TextInputScreen textInputScreen) {
-      return enterTextFromRequest(textInputScreen.getInputRequest());
+      Action<String> stringAction = enterTextFromRequest(textInputScreen.getInputRequest());
+      screenProviderManager.submitStringAction(stringAction);
     } else if (screen instanceof NumberInputScreen numberInputScreen) {
-      return enterNumberFromRequest(numberInputScreen.getInputRequest());
+      Action<Integer> integerAction = enterNumberFromRequest(numberInputScreen.getInputRequest());
+      screenProviderManager.submitIntegerAction(integerAction);
     } else if (screen instanceof InformationScreen informationScreen) {
       for (String line : informationScreen.getLines()) {
         cliWindow.println(line);
@@ -57,10 +61,9 @@ public class QuizClashCLI {
       cliWindow.moveToActionField();
       cliWindow.waitForEnter();
     }
-    return new IntegerAction(0);
   }
 
-  private Actionable<?> selectFromOptions(List<? extends Displayable> optionList) throws InterruptedException {
+  private Action<Integer> selectFromOptions(List<? extends Displayable> optionList) throws InterruptedException {
     ListIterator<? extends Displayable> gameModeListIterator = optionList.listIterator();
     while (gameModeListIterator.hasNext()) {
       cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " +
@@ -81,16 +84,16 @@ public class QuizClashCLI {
         System.out.print("\u001b[1A");
       }
     }
-    return new IntegerAction(selected);
+    return new Action<>(selected);
   }
 
-  private Actionable<?> enterTextFromRequest(String request) {
+  private Action<String> enterTextFromRequest(String request) {
     cliWindow.moveToActionField();
-    return new TextAction(cliWindow.getTextInput(request));
+    return new Action<>(cliWindow.getTextInput(request));
   }
 
-  private Actionable<?> enterNumberFromRequest(String request) {
+  private Action<Integer> enterNumberFromRequest(String request) {
     cliWindow.moveToActionField();
-    return new IntegerAction(cliWindow.getNumberInput(request));
+    return new Action<>(cliWindow.getNumberInput(request));
   }
 }
