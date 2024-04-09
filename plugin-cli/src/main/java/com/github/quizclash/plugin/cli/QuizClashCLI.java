@@ -48,6 +48,8 @@ public class QuizClashCLI {
       return selectFromOptions(optionList);
     } else if (screen instanceof TextInputScreen textInputScreen) {
       return enterTextFromRequest(textInputScreen.getInputRequest());
+    } else if (screen instanceof NumberInputScreen numberInputScreen) {
+      return enterNumberFromRequest(numberInputScreen.getInputRequest());
     } else if (screen instanceof InformationScreen informationScreen) {
       for (String line : informationScreen.getLines()) {
         cliWindow.println(line);
@@ -85,5 +87,10 @@ public class QuizClashCLI {
   private Actionable<?> enterTextFromRequest(String request) {
     cliWindow.moveToActionField();
     return new TextAction(cliWindow.getTextInput(request));
+  }
+
+  private Actionable<?> enterNumberFromRequest(String request) {
+    cliWindow.moveToActionField();
+    return new IntegerAction(cliWindow.getNumberInput(request));
   }
 }
