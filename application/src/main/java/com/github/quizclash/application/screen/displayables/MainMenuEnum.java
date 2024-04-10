@@ -1,4 +1,7 @@
-package com.github.quizclash.domain;
+package com.github.quizclash.application.screen.displayables;
+
+import com.github.quizclash.domain.Displayable;
+
 public enum MainMenuEnum implements Displayable {
   START_GAME("Start Game"),
   GAME_SETTINGS("Game Settings"),

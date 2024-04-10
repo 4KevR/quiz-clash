@@ -1,6 +1,8 @@
-package com.github.quizclash.domain;
+package com.github.quizclash.application.screen.displayables;
 
-public enum UserMenuEnum implements Displayable{
+import com.github.quizclash.domain.Displayable;
+
+public enum UserMenuEnum implements Displayable {
     ADD_USER("Add User"),
     REMOVE_USER("Remove User"),
     BACK("Back to main menu");

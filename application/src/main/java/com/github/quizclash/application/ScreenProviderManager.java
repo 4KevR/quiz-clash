@@ -1,18 +1,25 @@
 package com.github.quizclash.application;
 
+import com.github.quizclash.application.screen.ScreenFactory;
+import com.github.quizclash.application.screen.provider.*;
 import com.github.quizclash.domain.*;
 
 public class ScreenProviderManager {
     private final Repository repository;
+    private final ScreenFactory screenFactory;
     private ScreenProvider currentScreenProvider;
 
-    public ScreenProviderManager(Repository repository) {
+    public ScreenProviderManager(Repository repository, ScreenFactory screenFactory) {
         this.repository = repository;
-        this.currentScreenProvider = new WelcomeScreenProvider(repository);
+        this.screenFactory = screenFactory;
+        this.currentScreenProvider = new WelcomeScreenProvider(repository, screenFactory);
     }
 
-    public ScreenProvider getCurrentScreenProvider() {
-        return currentScreenProvider;
+    public void run() throws InterruptedException {
+        while (currentScreenProvider != null) {
+            currentScreenProvider.execute();
+            this.updateScreenProvider();
+        }
     }
 
     public void updateScreenProvider() {
@@ -22,32 +29,16 @@ public class ScreenProviderManager {
             return;
         }
         switch (nextScreenProviderType) {
-            case ADD_USER -> currentScreenProvider = new AddUserScreenProvider(repository);
-            case CHANGE_CATEGORY_SETTINGS -> currentScreenProvider = new ChangeCategorySettingScreenProvider(repository);
-            case GAME_MODE -> currentScreenProvider = new GameModeScreenProvider(repository);
-            case GAME_SETTINGS -> currentScreenProvider = new GameSettingsScreenProvider(repository);
-            case LOCAL_MULTIPLAYER -> currentScreenProvider = new LocalMultiplayerScreenProvider(repository);
-            case MENU -> currentScreenProvider = new MenuScreenProvider(repository);
-            case REMOVE_USER -> currentScreenProvider = new RemoveUserScreenProvider(repository);
-            case TRAINING -> currentScreenProvider = new TrainingScreenProvider(repository);
-            case USER_MENU -> currentScreenProvider = new UserMenuScreenProvider(repository);
-            case WELCOME -> currentScreenProvider = new WelcomeScreenProvider(repository);
-        }
-    }
-
-    public void submitStringAction(Action<String> action) throws InvalidActionException {
-        if (currentScreenProvider instanceof StringActionable stringActionableScreen) {
-            stringActionableScreen.submitAction(action);
-        } else {
-            throw new InvalidActionException("The current screen does not support string actions");
-        }
-    }
-
-    public void submitIntegerAction(Action<Integer> action) throws InvalidActionException {
-        if (currentScreenProvider instanceof IntegerActionable integerActionableScreen) {
-            integerActionableScreen.submitAction(action);
-        } else {
-            throw new InvalidActionException("The current screen does not support integer actions");
+            case ADD_USER -> currentScreenProvider = new AddUserScreenProvider(repository, screenFactory);
+            case CHANGE_CATEGORY_SETTINGS -> currentScreenProvider = new ChangeCategorySettingScreenProvider(repository, screenFactory);
+            case GAME_MODE -> currentScreenProvider = new GameModeScreenProvider(repository, screenFactory);
+            case GAME_SETTINGS -> currentScreenProvider = new GameSettingsScreenProvider(repository, screenFactory);
+            case LOCAL_MULTIPLAYER -> currentScreenProvider = new LocalMultiplayerScreenProvider(repository, screenFactory);
+            case MENU -> currentScreenProvider = new MenuScreenProvider(repository, screenFactory);
+            case REMOVE_USER -> currentScreenProvider = new RemoveUserScreenProvider(repository, screenFactory);
+            case TRAINING -> currentScreenProvider = new TrainingScreenProvider(repository, screenFactory);
+            case USER_MENU -> currentScreenProvider = new UserMenuScreenProvider(repository, screenFactory);
+            case WELCOME -> currentScreenProvider = new WelcomeScreenProvider(repository, screenFactory);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.github.quizclash.application;
 
+import com.github.quizclash.domain.Displayable;
 import com.github.quizclash.domain.*;
 
 import java.util.ArrayList;

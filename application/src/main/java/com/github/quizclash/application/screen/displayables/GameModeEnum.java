@@ -1,4 +1,6 @@
-package com.github.quizclash.domain;
+package com.github.quizclash.application.screen.displayables;
+
+import com.github.quizclash.domain.Displayable;
 
 public enum GameModeEnum implements Displayable {
   TRAINING("Training"),

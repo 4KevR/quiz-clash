@@ -1,4 +1,6 @@
-package com.github.quizclash.domain;
+package com.github.quizclash.application.screen.displayables;
+
+import com.github.quizclash.domain.Displayable;
 
 public enum GameSettingsEnum implements Displayable {
     CATEGORIES("Categories played per user in one game"),
