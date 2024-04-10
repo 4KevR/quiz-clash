@@ -24,7 +24,8 @@ public class CLIScreenFactory implements ScreenFactory {
   }
 
   @Override
-  public OptionScreen createOptionScreen(String screenName, List<? extends Displayable> displayableList) {
+  public OptionScreen createOptionScreen(String screenName,
+                                         List<? extends Displayable> displayableList) {
     return new CLIOptionScreen(screenName, displayableList, cliWindow);
   }
 

@@ -1,9 +1,9 @@
 package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.displayables.MainMenuEnum;
-import com.github.quizclash.application.screen.OptionScreen;
-import com.github.quizclash.domain.*;
+import com.github.quizclash.domain.Repository;
 
 import java.util.List;
 
@@ -23,7 +23,8 @@ public class MenuScreenProvider implements ScreenProvider {
     while (selectedMenuItem <= 0 || selectedMenuItem > 4) {
       String userName = this.repository.getUserRepository().getUsers().get(0).getName();
       String menuTitle = "Hello " + userName + ", select an entry from the menu";
-      OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle, List.of(MainMenuEnum.values()));
+      OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle,
+          List.of(MainMenuEnum.values()));
       optionScreen.render();
       selectedMenuItem = optionScreen.getOptionInput().getActionValue();
       switch (selectedMenuItem) {

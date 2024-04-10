@@ -9,7 +9,8 @@ public class Question {
   private final String question;
   private final QuestionOption[] questionOptions;
 
-  public Question(int id, String question, QuestionOption[] questionOptions)throws InvalidQuestionFormatException {
+  public Question(int id, String question, QuestionOption[] questionOptions)
+      throws InvalidQuestionFormatException {
     this.id = id;
     this.question = question;
     List<QuestionOption> options = Arrays.asList(QuestionValidator.validate(questionOptions));

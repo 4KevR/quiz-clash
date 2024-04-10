@@ -63,8 +63,7 @@ public class CLIWindowManager {
   }
 
   public void moveOnActionField(int moveToX, int moveToY) {
-    if (onCanvas)
-      moveToActionField();
+    if (onCanvas) moveToActionField();
     System.out.printf("\u001b[%dD", currentX);
     System.out.printf("\u001b[%dA", currentY);
     System.out.printf("\u001b[%dC", moveToX);

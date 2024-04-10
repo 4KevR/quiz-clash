@@ -1,12 +1,9 @@
 package com.github.quizclash.plugin.database;
 
-import com.github.quizclash.domain.Category;
-import com.github.quizclash.domain.CategoryRepository;
-import com.github.quizclash.domain.InvalidQuestionFormatException;
-import com.github.quizclash.domain.Question;
-import com.github.quizclash.domain.QuestionOption;
+import com.github.quizclash.domain.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;

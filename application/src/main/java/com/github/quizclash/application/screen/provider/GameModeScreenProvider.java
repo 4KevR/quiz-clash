@@ -1,9 +1,9 @@
 package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.displayables.GameModeEnum;
-import com.github.quizclash.application.screen.OptionScreen;
-import com.github.quizclash.domain.*;
+import com.github.quizclash.domain.Repository;
 
 import java.util.List;
 
@@ -21,7 +21,8 @@ public class GameModeScreenProvider implements ScreenProvider {
   public void execute() throws InterruptedException {
     int selection = 0;
     while (selection <= 0 || selection > 4) {
-      OptionScreen optionScreen = screenFactory.createOptionScreen("Select Game Mode", List.of(GameModeEnum.values()));
+      OptionScreen optionScreen = screenFactory.createOptionScreen("Select Game Mode",
+          List.of(GameModeEnum.values()));
       optionScreen.render();
       selection = optionScreen.getOptionInput().getActionValue();
       switch (selection) {

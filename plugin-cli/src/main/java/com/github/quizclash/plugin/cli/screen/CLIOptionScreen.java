@@ -12,7 +12,9 @@ public class CLIOptionScreen extends OptionScreen {
   private final CLIWindowManager cliWindow;
   private int userOption;
 
-  public CLIOptionScreen(String screenName, List<? extends Displayable> displayableList, CLIWindowManager cliWindow) {
+  public CLIOptionScreen(String screenName,
+                         List<? extends Displayable> displayableList,
+                         CLIWindowManager cliWindow) {
     super(screenName, displayableList);
     this.cliWindow = cliWindow;
   }
@@ -31,11 +33,12 @@ public class CLIOptionScreen extends OptionScreen {
     return new Action<>(userOption);
   }
 
-  private int selectFromOptions(List<? extends Displayable> optionList) throws InterruptedException {
+  private int selectFromOptions(List<? extends Displayable> optionList)
+      throws InterruptedException {
     ListIterator<? extends Displayable> gameModeListIterator = optionList.listIterator();
     while (gameModeListIterator.hasNext()) {
-      cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " +
-          gameModeListIterator.next().getDisplayName());
+      cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " + gameModeListIterator.next()
+          .getDisplayName());
     }
     cliWindow.moveToActionField();
     int selected = 0;
