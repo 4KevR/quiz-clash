@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
     this.users.add(user);
   }
 
-  public void removeUser(User user){
+  public void removeUser(User user) {
     this.users.remove(user);
   }
 }

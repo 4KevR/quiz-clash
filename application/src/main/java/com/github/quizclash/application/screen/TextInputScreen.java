@@ -4,6 +4,7 @@ import com.github.quizclash.application.action.Action;
 
 public abstract class TextInputScreen extends Screen {
   private final String inputRequest;
+
   public TextInputScreen(String screenName, String inputRequest) {
     super(screenName);
     this.inputRequest = inputRequest;

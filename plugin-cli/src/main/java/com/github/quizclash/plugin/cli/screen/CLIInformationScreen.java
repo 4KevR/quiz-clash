@@ -7,6 +7,7 @@ import java.util.List;
 
 public class CLIInformationScreen extends InformationScreen {
   CLIWindowManager cliWindow;
+
   public CLIInformationScreen(String screenName, List<String> lines, CLIWindowManager cliWindow) {
     super(screenName, lines);
     this.cliWindow = cliWindow;

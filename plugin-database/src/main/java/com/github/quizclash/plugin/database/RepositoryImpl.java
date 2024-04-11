@@ -10,7 +10,9 @@ public class RepositoryImpl implements Repository {
   private final SettingsRepository settingsRepository;
   private final UserRepository userRepository;
 
-  public RepositoryImpl(CategoryRepository categoryRepository, SettingsRepository settingsRepository, UserRepository userRepository) {
+  public RepositoryImpl(CategoryRepository categoryRepository,
+                        SettingsRepository settingsRepository,
+                        UserRepository userRepository) {
     this.categoryRepository = categoryRepository;
     this.settingsRepository = settingsRepository;
     this.userRepository = userRepository;
@@ -18,7 +20,7 @@ public class RepositoryImpl implements Repository {
 
   public CategoryRepository getCategoryRepository() {
     return categoryRepository;
-  } 
+  }
 
   public SettingsRepository getSettingsRepository() {
     return settingsRepository;

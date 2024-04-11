@@ -1,6 +1,7 @@
 package com.github.quizclash.plugin.database;
 
 import org.json.JSONArray;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
