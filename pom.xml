@@ -15,6 +15,7 @@
         <module>plugin-database</module>
         <module>plugin-cli</module>
         <module>plugin-main</module>
+        <module>plugin-network</module>
         <module>report</module>
     </modules>
 

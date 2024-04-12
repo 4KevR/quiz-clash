@@ -10,12 +10,16 @@ import com.github.quizclash.plugin.database.CategoryRepositoryImpl;
 import com.github.quizclash.plugin.database.RepositoryImpl;
 import com.github.quizclash.plugin.database.SettingsRepositoryImpl;
 import com.github.quizclash.plugin.database.UserRepositoryImpl;
+import com.github.quizclash.plugin.network.SocketIOGameRoomManager;
 
 import java.io.IOException;
+import java.net.URI;
 
 public class Starter {
   public static void main(String[] args)
       throws InterruptedException, IOException, InvalidQuestionFormatException {
+    URI gameServerURI = URI.create(args[0]);
+    SocketIOGameRoomManager socketIOGameRoomManager = new SocketIOGameRoomManager(gameServerURI);
     CategoryRepositoryImpl categoryRepository = new CategoryRepositoryImpl();
     SettingsRepository settingsRepository = new SettingsRepositoryImpl();
     UserRepositoryImpl userRepository = new UserRepositoryImpl();
@@ -24,7 +28,7 @@ public class Starter {
     QuizClashCLI quizClashCLI = new QuizClashCLI(100, 30);
     ScreenFactory cliScreenFactory = quizClashCLI.getCLIScreenFactory();
     ScreenProviderManager screenProviderManager = new ScreenProviderManager(repository,
-        cliScreenFactory);
+        cliScreenFactory, socketIOGameRoomManager);
     screenProviderManager.run();
     quizClashCLI.destroy();
   }

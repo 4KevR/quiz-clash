@@ -1,4 +1,4 @@
-package com.github.quizclash.application.screen.displayables;
+package com.github.quizclash.application.screen.menu;
 
 import com.github.quizclash.domain.Displayable;
 

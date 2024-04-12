@@ -2,7 +2,7 @@ package com.github.quizclash.application.screen.provider;
 
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
-import com.github.quizclash.application.screen.displayables.MainMenuEnum;
+import com.github.quizclash.application.screen.menu.MainMenuEnum;
 import com.github.quizclash.domain.Repository;
 
 import java.util.List;
