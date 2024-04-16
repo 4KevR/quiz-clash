@@ -7,11 +7,11 @@ import com.github.quizclash.application.screen.TextInputScreen;
 import com.github.quizclash.domain.*;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Helper {
 
-  public static List<User> USERS = List.of(new User("Player 1"), new User("Player 2"));
   public static Question[] QUESTIONS;
   public static Category[] CATEGORIES;
 
@@ -57,7 +57,10 @@ public class Helper {
     Mockito.when(repository.getSettingsRepository()).thenReturn(settingsRepository);
 
     UserRepository userRepository = Mockito.mock(UserRepository.class);
-    Mockito.when(userRepository.getUsers()).thenReturn(Helper.USERS);
+    List<User> users = new ArrayList<>();
+    users.add(new User("Player 1"));
+    users.add(new User("Player 2"));
+    Mockito.when(userRepository.getUsers()).thenReturn(users);
     Mockito.when(repository.getUserRepository()).thenReturn(userRepository);
 
     return repository;
