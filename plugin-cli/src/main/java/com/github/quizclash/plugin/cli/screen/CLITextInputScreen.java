@@ -14,7 +14,7 @@ public class CLITextInputScreen extends TextInputScreen {
   }
 
   @Override
-  public void render() throws InterruptedException {
+  public void render() {
     cliWindow.clearAllCanvas();
     cliWindow.printAnimated(this.getScreenName(), 20);
     cliWindow.moveOnCanvas(0, 2);

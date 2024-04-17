@@ -6,7 +6,7 @@ import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Repository;
 import com.github.quizclash.domain.SettingsRepository;
 import com.github.quizclash.plugin.cli.QuizClashCLI;
-import com.github.quizclash.plugin.database.CategoryRepositoryImpl;
+import com.github.quizclash.plugin.database.LocalCategoryRepository;
 import com.github.quizclash.plugin.database.RepositoryImpl;
 import com.github.quizclash.plugin.database.SettingsRepositoryImpl;
 import com.github.quizclash.plugin.database.UserRepositoryImpl;
@@ -20,7 +20,7 @@ public class Starter {
       throws InterruptedException, IOException, InvalidQuestionFormatException {
     URI gameServerURI = URI.create(args[0]);
     SocketIOGameRoomManager socketIOGameRoomManager = new SocketIOGameRoomManager(gameServerURI);
-    CategoryRepositoryImpl categoryRepository = new CategoryRepositoryImpl();
+    LocalCategoryRepository categoryRepository = new LocalCategoryRepository();
     SettingsRepository settingsRepository = new SettingsRepositoryImpl();
     UserRepositoryImpl userRepository = new UserRepositoryImpl();
     Repository repository = new RepositoryImpl(categoryRepository, settingsRepository,

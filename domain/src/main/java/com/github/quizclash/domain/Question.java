@@ -11,10 +11,17 @@ public class Question {
 
   public Question(int id, String question, QuestionOption[] questionOptions)
       throws InvalidQuestionFormatException {
+    this(id, question, questionOptions, true);
+  }
+
+  public Question(int id, String question, QuestionOption[] questionOptions, boolean shuffle)
+      throws InvalidQuestionFormatException {
     this.id = id;
     this.question = question;
     List<QuestionOption> options = Arrays.asList(QuestionValidator.validate(questionOptions));
-    Collections.shuffle(options);
+    if (shuffle) {
+      Collections.shuffle(options);
+    }
     this.questionOptions = options.toArray(new QuestionOption[0]);
   }
 

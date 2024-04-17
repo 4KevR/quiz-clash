@@ -18,7 +18,7 @@ public class GameModeScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int selection = 0;
     while (selection <= 0 || selection > 4) {
       OptionScreen optionScreen = screenFactory.createOptionScreen("Select Game Mode",

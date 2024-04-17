@@ -17,7 +17,7 @@ public class MenuCreator {
     this.screenFactory = screenFactory;
   }
 
-  public int displayAndGetSelection() throws InterruptedException {
+  public int displayAndGetSelection() {
     int selection = 0;
     while (selection <= 0 || selection > menuItems.length) {
       OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle, List.of(menuItems));

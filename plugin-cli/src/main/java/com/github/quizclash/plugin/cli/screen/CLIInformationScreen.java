@@ -13,15 +13,25 @@ public class CLIInformationScreen extends InformationScreen {
     this.cliWindow = cliWindow;
   }
 
+  public CLIInformationScreen(String screenName,
+                              List<String> lines,
+                              boolean isBlocking,
+                              CLIWindowManager cliWindow) {
+    super(screenName, lines, isBlocking);
+    this.cliWindow = cliWindow;
+  }
+
   @Override
-  public void render() throws InterruptedException {
+  public void render() {
     cliWindow.clearAllCanvas();
     cliWindow.printAnimated(this.getScreenName(), 20);
     cliWindow.moveOnCanvas(0, 2);
     for (String line : this.getLines()) {
       cliWindow.println(line);
     }
-    cliWindow.moveToActionField();
-    cliWindow.waitForEnter();
+    if (isBlocking()) {
+      cliWindow.moveToActionField();
+      cliWindow.waitForEnter();
+    }
   }
 }

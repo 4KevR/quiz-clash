@@ -3,7 +3,7 @@ package com.github.quizclash.plugin.network;
 import com.github.quizclash.application.room.GameRoom;
 import com.github.quizclash.application.room.GameRoomManager;
 import com.github.quizclash.application.room.RoomCreationException;
-import com.github.quizclash.application.room.RoomJoinException;
+import com.github.quizclash.domain.User;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -20,9 +20,11 @@ public class SocketIOGameRoomManager implements GameRoomManager {
   }
 
   @Override
-  public GameRoom createRoom(String name) throws RoomCreationException, RoomJoinException {
+  public GameRoom createRoom(User user, String name, int amountOfPlayers)
+      throws RoomCreationException {
     JSONObject createRoomBody = new JSONObject();
     createRoomBody.put("room_name", name);
+    createRoomBody.put("amount_of_players", amountOfPlayers);
     HttpRequest createRoomRequest = HttpRequest.newBuilder()
         .header("Content-Type", "application/json")
         .uri(URI.create(gameServerURL.toString() + "/room"))
@@ -34,14 +36,14 @@ public class SocketIOGameRoomManager implements GameRoomManager {
           .send(createRoomRequest, HttpResponse.BodyHandlers.ofString());
       String newRoomCode = response.body();
       if (response.statusCode() != 201) throw new RoomCreationException("Could not create room");
-      return new SocketIOGameRoom(gameServerURL, newRoomCode);
+      return new SocketIOGameRoom(user, gameServerURL, newRoomCode);
     } catch (IOException | InterruptedException e) {
       throw new RoomCreationException("Could not create room - " + e);
     }
   }
 
   @Override
-  public GameRoom joinRoom(String roomCode) throws RoomJoinException {
-    return new SocketIOGameRoom(gameServerURL, roomCode);
+  public GameRoom joinRoom(User user, String roomCode) {
+    return new SocketIOGameRoom(user, gameServerURL, roomCode);
   }
 }

@@ -34,10 +34,14 @@ public class CLIWindowManager {
     currentX = newX;
   }
 
-  public void printAnimated(String text, int delay) throws InterruptedException {
+  public void printAnimated(String text, int delay) {
     for (char c : text.toCharArray()) {
       this.print(String.valueOf(c));
-      Thread.sleep(delay);
+      try {
+        Thread.sleep(delay);
+      } catch (InterruptedException e) {
+        throw new RuntimeException("The application runtime was interrupted: " + e.getMessage());
+      }
     }
   }
 

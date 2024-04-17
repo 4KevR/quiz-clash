@@ -1,7 +1,10 @@
 package com.github.quizclash.application.room;
 
-public interface GameRoomManager {
-  GameRoom createRoom(String name) throws RoomCreationException, RoomJoinException;
+import com.github.quizclash.domain.User;
 
-  GameRoom joinRoom(String roomCode) throws RoomJoinException;
+public interface GameRoomManager {
+  GameRoom createRoom(User user, String name, int amountOfPlayers)
+      throws RoomCreationException, RoomJoinException;
+
+  GameRoom joinRoom(User user, String roomCode) throws RoomJoinException;
 }

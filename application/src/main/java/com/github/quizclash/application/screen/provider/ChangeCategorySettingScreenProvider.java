@@ -15,7 +15,7 @@ public class ChangeCategorySettingScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int categoriesPerUserInGame = 0;
     while (categoriesPerUserInGame == 0) {
       NumberInputScreen numberInputScreen = screenFactory.createNumberInputScreen(

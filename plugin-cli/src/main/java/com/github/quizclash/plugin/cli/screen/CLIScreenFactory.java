@@ -19,6 +19,13 @@ public class CLIScreenFactory implements ScreenFactory {
   }
 
   @Override
+  public InformationScreen createInformationScreen(String screenName,
+                                                   List<String> lines,
+                                                   boolean isBlocking) {
+    return new CLIInformationScreen(screenName, lines, isBlocking, cliWindow);
+  }
+
+  @Override
   public NumberInputScreen createNumberInputScreen(String screenName, String inputRequest) {
     return new CLINumberInputScreen(screenName, inputRequest, cliWindow);
   }

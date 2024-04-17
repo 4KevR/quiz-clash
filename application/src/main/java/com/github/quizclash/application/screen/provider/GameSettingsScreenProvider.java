@@ -18,7 +18,7 @@ public class GameSettingsScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int selection = 0;
     String menuTitle = "Which Settings do you want to change?";
     while (selection <= 0 || selection > 3) {

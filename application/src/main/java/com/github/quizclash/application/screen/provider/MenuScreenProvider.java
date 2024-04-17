@@ -18,7 +18,7 @@ public class MenuScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int selectedMenuItem = 0;
     while (selectedMenuItem <= 0 || selectedMenuItem > 4) {
       String userName = this.repository.getUserRepository().getUsers().get(0).getName();

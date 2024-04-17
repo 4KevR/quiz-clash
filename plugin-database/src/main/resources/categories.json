@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "categoryName": "Science",
+    "categoryName": "Chemistry",
     "questions": [
       {
         "id": 1,
@@ -26,89 +26,45 @@
         ]
       },
       {
-        "id": 2,
-        "question": "What planet is known as the Red Planet?",
+        "id": 52,
+        "question": "What is the atomic number of oxygen?",
         "questionOptions": [
           {
-            "questionOption": "Mars",
+            "questionOption": "8",
             "isRight": true
           },
           {
-            "questionOption": "Jupiter",
+            "questionOption": "6",
             "isRight": false
           },
           {
-            "questionOption": "Saturn",
+            "questionOption": "7",
             "isRight": false
           },
           {
-            "questionOption": "Venus",
+            "questionOption": "10",
             "isRight": false
           }
         ]
       },
       {
-        "id": 3,
-        "question": "What is the closest star to Earth?",
+        "id": 53,
+        "question": "In the periodic table, where are the metals located?",
         "questionOptions": [
           {
-            "questionOption": "Sun",
+            "questionOption": "Left side",
             "isRight": true
           },
           {
-            "questionOption": "Sirius",
+            "questionOption": "Right side",
             "isRight": false
           },
           {
-            "questionOption": "Proxima Centauri",
+            "questionOption": "In the center",
             "isRight": false
           },
           {
-            "questionOption": "Alpha Centauri",
-            "isRight": false
-          }
-        ]
-      },
-      {
-        "id": 4,
-        "question": "What is the powerhouse of the cell?",
-        "questionOptions": [
-          {
-            "questionOption": "Mitochondria",
-            "isRight": true
-          },
-          {
-            "questionOption": "Ribosome",
-            "isRight": false
-          },
-          {
-            "questionOption": "Endoplasmic Reticulum",
-            "isRight": false
-          },
-          {
-            "questionOption": "Golgi Apparatus",
-            "isRight": false
-          }
-        ]
-      },
-      {
-        "id": 5,
-        "question": "What is the largest organ in the human body?",
-        "questionOptions": [
-          {
-            "questionOption": "Skin",
-            "isRight": true
-          },
-          {
-            "questionOption": "Liver",
-            "isRight": false
-          },
-          {
-            "questionOption": "Heart",
-            "isRight": false
-          },
-          {
-            "questionOption": "Brain",
+            "questionOption": "Spread evenly",
             "isRight": false
           }
         ]
@@ -225,6 +181,50 @@
           },
           {
             "questionOption": "Sun Yat-sen",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 48,
+        "question": "Who discovered America?",
+        "questionOptions": [
+          {
+            "questionOption": "Christopher Columbus",
+            "isRight": true
+          },
+          {
+            "questionOption": "Leif Erikson",
+            "isRight": false
+          },
+          {
+            "questionOption": "Alexander the Great",
+            "isRight": false
+          },
+          {
+            "questionOption": "Julius Caesar",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 55,
+        "question": "When did World War II end?",
+        "questionOptions": [
+          {
+            "questionOption": "1945",
+            "isRight": true
+          },
+          {
+            "questionOption": "1944",
+            "isRight": false
+          },
+          {
+            "questionOption": "1943",
+            "isRight": false
+          },
+          {
+            "questionOption": "1946",
             "isRight": false
           }
         ]
@@ -1037,6 +1037,228 @@
           },
           {
             "questionOption": "360 degrees",
+            "isRight": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "categoryName": "Physics",
+    "questions": [
+      {
+        "id": 46,
+        "question": "What is the speed of light?",
+        "questionOptions": [
+          {
+            "questionOption": "299,792 kilometers per second",
+            "isRight": true
+          },
+          {
+            "questionOption": "200,000 kilometers per second",
+            "isRight": false
+          },
+          {
+            "questionOption": "100,000 kilometers per second",
+            "isRight": false
+          },
+          {
+            "questionOption": "50,000 kilometers per second",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 47,
+        "question": "Who proposed the theory of relativity?",
+        "questionOptions": [
+          {
+            "questionOption": "Albert Einstein",
+            "isRight": true
+          },
+          {
+            "questionOption": "Isaac Newton",
+            "isRight": false
+          },
+          {
+            "questionOption": "Galileo Galilei",
+            "isRight": false
+          },
+          {
+            "questionOption": "Nikola Tesla",
+            "isRight": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "categoryName": "Biology",
+    "questions": [
+      {
+        "id": 54,
+        "question": "What is the smallest unit of life?",
+        "questionOptions": [
+          {
+            "questionOption": "Cell",
+            "isRight": true
+          },
+          {
+            "questionOption": "Atom",
+            "isRight": false
+          },
+          {
+            "questionOption": "Molecule",
+            "isRight": false
+          },
+          {
+            "questionOption": "Organism",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 49,
+        "question": "What is the powerhouse of the cell?",
+        "questionOptions": [
+          {
+            "questionOption": "Mitochondria",
+            "isRight": true
+          },
+          {
+            "questionOption": "Nucleus",
+            "isRight": false
+          },
+          {
+            "questionOption": "Ribosomes",
+            "isRight": false
+          },
+          {
+            "questionOption": "Endoplasmic Reticulum",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "question": "What is the largest organ in the human body?",
+        "questionOptions": [
+          {
+            "questionOption": "Skin",
+            "isRight": true
+          },
+          {
+            "questionOption": "Liver",
+            "isRight": false
+          },
+          {
+            "questionOption": "Heart",
+            "isRight": false
+          },
+          {
+            "questionOption": "Brain",
+            "isRight": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "categoryName": "Computer Science",
+    "questions": [
+      {
+        "id": 50,
+        "question": "Who is known as the father of Computer Science?",
+        "questionOptions": [
+          {
+            "questionOption": "Alan Turing",
+            "isRight": true
+          },
+          {
+            "questionOption": "Bill Gates",
+            "isRight": false
+          },
+          {
+            "questionOption": "Steve Jobs",
+            "isRight": false
+          },
+          {
+            "questionOption": "Charles Babbage",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 51,
+        "question": "What does HTML stand for?",
+        "questionOptions": [
+          {
+            "questionOption": "Hyper Text Markup Language",
+            "isRight": true
+          },
+          {
+            "questionOption": "Hyperlinks and Text Markup Language",
+            "isRight": false
+          },
+          {
+            "questionOption": "Home Tool Markup Language",
+            "isRight": false
+          },
+          {
+            "questionOption": "Hyper Text Multiple Language",
+            "isRight": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "categoryName": "Astronomy",
+    "questions": [
+      {
+        "id": 2,
+        "question": "What planet is known as the Red Planet?",
+        "questionOptions": [
+          {
+            "questionOption": "Mars",
+            "isRight": true
+          },
+          {
+            "questionOption": "Jupiter",
+            "isRight": false
+          },
+          {
+            "questionOption": "Saturn",
+            "isRight": false
+          },
+          {
+            "questionOption": "Venus",
+            "isRight": false
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "question": "What is the closest star to Earth?",
+        "questionOptions": [
+          {
+            "questionOption": "Sun",
+            "isRight": true
+          },
+          {
+            "questionOption": "Sirius",
+            "isRight": false
+          },
+          {
+            "questionOption": "Proxima Centauri",
+            "isRight": false
+          },
+          {
+            "questionOption": "Alpha Centauri",
             "isRight": false
           }
         ]

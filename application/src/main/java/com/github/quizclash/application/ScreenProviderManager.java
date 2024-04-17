@@ -20,7 +20,7 @@ public class ScreenProviderManager {
     this.currentScreenProvider = new WelcomeScreenProvider(repository, screenFactory);
   }
 
-  public void run() throws InterruptedException {
+  public void run() {
     while (currentScreenProvider != null) {
       currentScreenProvider.execute();
       this.updateScreenProvider();

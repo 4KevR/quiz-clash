@@ -18,7 +18,7 @@ public class UserMenuScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int selection = 0;
     String menuTitle = "What do you want to do?";
     while (selection <= 0 || selection > 3) {

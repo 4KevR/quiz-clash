@@ -18,7 +18,7 @@ public class RemoveUserScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int userToRemove = 0;
     String menuTitle = "Which user do you want to remove?";
     List<User> users = this.repository.getUserRepository().getUsers();
