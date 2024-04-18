@@ -1,0 +1,42 @@
+name: Deploy Test Report
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  create-test-report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Create coverage report
+        run: mvn -B -Pcoverage verify
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: report/target/site/jacoco-aggregate
+
+  deploy-test-report:
+    needs: create-test-report
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy JaCoCo report to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
