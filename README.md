@@ -1,4 +1,4 @@
-# QuizClash
+![quiz-clash-logo](docs/quiz-clash.png)
 
 QuizClash is a CLI-based quiz game that includes multiplayer functionalities.
 
@@ -39,8 +39,7 @@ java -jar quiz-clash-jar-with-dependencies.jar
 To get the JaCoCo test report, execute the following command:
 
 ```bash
-mvn jacoco:report
+mvn -Pcoverage verify
 ```
 
-It will also be executed when you run `mvn package`.
-You will find the reports in each module at **/target/site/jacoco/index.html**.
+You will find the reports in each module at **/target/site/jacoco/index.html**. The overall report for all modules can be found at **report/target/site/jacoco/index.html**. This report will also be published on GitHub Pages on every push on main. It can be found [here](https://4kevr.github.io/quiz-clash).
