@@ -52,6 +52,9 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
+                        <configuration>
+                            <title>Quiz-Clash Test Coverage Report</title>
+                        </configuration>
                         <executions>
                             <execution>
                                 <id>report-aggregate</id>
