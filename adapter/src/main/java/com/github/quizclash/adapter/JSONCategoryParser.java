@@ -1,9 +1,6 @@
 package com.github.quizclash.adapter;
 
-import com.github.quizclash.domain.Category;
-import com.github.quizclash.domain.InvalidQuestionFormatException;
-import com.github.quizclash.domain.Question;
-import com.github.quizclash.domain.QuestionOption;
+import com.github.quizclash.domain.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -12,28 +9,44 @@ public class JSONCategoryParser {
       throws InvalidQuestionFormatException {
     Category[] categories = new Category[jsonCategories.length()];
     for (int index = 0; index < jsonCategories.length(); index++) {
-      JSONObject jsonCategory = jsonCategories.getJSONObject(index);
-      int categoryId = jsonCategory.getInt("id");
-      String categoryName = jsonCategory.getString("categoryName");
-      JSONArray jsonQuestions = jsonCategory.getJSONArray("questions");
-      Question[] questions = new Question[jsonQuestions.length()];
-      for (int questionIndex = 0; questionIndex < jsonQuestions.length(); questionIndex++) {
-        JSONObject jsonQuestion = jsonQuestions.getJSONObject(questionIndex);
-        int questionId = jsonQuestion.getInt("id");
-        String question = jsonQuestion.getString("question");
-        JSONArray jsonQuestionOptions = jsonQuestion.getJSONArray("questionOptions");
-        QuestionOption[] questionOptions = new QuestionOption[jsonQuestionOptions.length()];
-        for (int questionOptionIndex = 0; questionOptionIndex < jsonQuestionOptions.length(); questionOptionIndex++) {
-          JSONObject jsonQuestionOption = jsonQuestionOptions.getJSONObject(questionOptionIndex);
-          String questionOption = jsonQuestionOption.getString("questionOption");
-          boolean isRight = jsonQuestionOption.getBoolean("isRight");
-          questionOptions[questionOptionIndex] = new QuestionOption(questionOption, isRight);
-        }
-        questions[questionIndex] = new Question(questionId, question, questionOptions,
-            shuffleQuestions);
-      }
-      categories[index] = new Category(categoryId, categoryName, questions);
+      categories[index] = parseCategory(jsonCategories.getJSONObject(index), shuffleQuestions);
     }
     return categories;
+  }
+
+  private static Category parseCategory(JSONObject jsonCategory, boolean shuffleQuestions)
+      throws InvalidQuestionFormatException {
+    CategoryBuilder categoryBuilder = new CategoryBuilder()
+        .setId(jsonCategory.getInt("id"))
+        .setCategoryName(jsonCategory.getString("categoryName"));
+
+    JSONArray jsonQuestions = jsonCategory.getJSONArray("questions");
+    for (int questionIndex = 0; questionIndex < jsonQuestions.length(); questionIndex++) {
+      categoryBuilder.addQuestion(
+          parseQuestion(jsonQuestions.getJSONObject(questionIndex), shuffleQuestions));
+    }
+    return categoryBuilder.build();
+  }
+
+  private static Question parseQuestion(JSONObject jsonQuestion, boolean shuffleQuestions)
+      throws InvalidQuestionFormatException {
+    QuestionBuilder questionBuilder = new QuestionBuilder()
+        .setId(jsonQuestion.getInt("id"))
+        .setQuestion(jsonQuestion.getString("question"))
+        .setQuestionShuffling(shuffleQuestions);
+
+    JSONArray jsonQuestionOptions = jsonQuestion.getJSONArray("questionOptions");
+    for (int questionOptionIndex = 0; questionOptionIndex < jsonQuestionOptions.length(); questionOptionIndex++) {
+      questionBuilder.addQuestionOption(
+          parseQuestionOption(jsonQuestionOptions.getJSONObject(questionOptionIndex)));
+    }
+    return questionBuilder.build();
+  }
+
+  private static QuestionOption parseQuestionOption(JSONObject jsonQuestionOption) {
+    return new QuestionOptionBuilder()
+        .setQuestionOption(jsonQuestionOption.getString("questionOption"))
+        .setIsRight(jsonQuestionOption.getBoolean("isRight"))
+        .build();
   }
 }
