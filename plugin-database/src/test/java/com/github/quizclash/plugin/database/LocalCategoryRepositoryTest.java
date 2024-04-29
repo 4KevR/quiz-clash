@@ -9,7 +9,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LocalCategoryRepositoryTest {
-  LocalCategoryRepository categoryRepository = new LocalCategoryRepository();
+  final LocalCategoryRepository categoryRepository = new LocalCategoryRepository();
 
   LocalCategoryRepositoryTest() throws InvalidQuestionFormatException, IOException {
   }

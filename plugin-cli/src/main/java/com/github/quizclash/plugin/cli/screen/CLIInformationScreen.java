@@ -6,7 +6,7 @@ import com.github.quizclash.plugin.cli.CLIWindowManager;
 import java.util.List;
 
 public class CLIInformationScreen extends InformationScreen {
-  CLIWindowManager cliWindow;
+  final CLIWindowManager cliWindow;
 
   public CLIInformationScreen(String screenName, List<String> lines, CLIWindowManager cliWindow) {
     super(screenName, lines);

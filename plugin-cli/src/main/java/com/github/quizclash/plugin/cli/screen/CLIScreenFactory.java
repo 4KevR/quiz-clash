@@ -7,7 +7,7 @@ import com.github.quizclash.plugin.cli.CLIWindowManager;
 import java.util.List;
 
 public class CLIScreenFactory implements ScreenFactory {
-  CLIWindowManager cliWindow;
+  final CLIWindowManager cliWindow;
 
   public CLIScreenFactory(CLIWindowManager cliWindow) {
     this.cliWindow = cliWindow;

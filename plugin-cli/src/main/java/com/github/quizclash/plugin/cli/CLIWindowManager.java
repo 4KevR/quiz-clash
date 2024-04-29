@@ -1,5 +1,7 @@
 package com.github.quizclash.plugin.cli;
 
+import com.github.quizclash.application.TerminationException;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -40,7 +42,7 @@ public class CLIWindowManager {
       try {
         Thread.sleep(delay);
       } catch (InterruptedException e) {
-        throw new RuntimeException("The application runtime was interrupted: " + e.getMessage());
+        throw new TerminationException("QuizClash was interrupted");
       }
     }
   }

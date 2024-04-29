@@ -1,5 +1,6 @@
 package com.github.quizclash.plugin.cli.screen;
 
+import com.github.quizclash.application.TerminationException;
 import com.github.quizclash.application.action.Action;
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.domain.Displayable;
@@ -36,7 +37,8 @@ public class CLIOptionScreen extends OptionScreen {
   private int selectFromOptions(List<? extends Displayable> optionList) {
     ListIterator<? extends Displayable> gameModeListIterator = optionList.listIterator();
     while (gameModeListIterator.hasNext()) {
-      cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " + gameModeListIterator.next()
+      cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " + gameModeListIterator
+          .next()
           .getDisplayName());
     }
     cliWindow.moveToActionField();
@@ -51,7 +53,7 @@ public class CLIOptionScreen extends OptionScreen {
         try {
           Thread.sleep(2000);
         } catch (InterruptedException e) {
-          throw new RuntimeException("The application runtime was interrupted: " + e.getMessage());
+          throw new TerminationException("QuizClash was interrupted");
         }
         cliWindow.clearActionField();
         System.out.print("\u001b[1D");

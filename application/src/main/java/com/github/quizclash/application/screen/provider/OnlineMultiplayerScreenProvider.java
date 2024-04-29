@@ -1,6 +1,7 @@
 package com.github.quizclash.application.screen.provider;
 
 import com.github.quizclash.application.QuizGame;
+import com.github.quizclash.application.TerminationException;
 import com.github.quizclash.application.room.*;
 import com.github.quizclash.application.screen.*;
 import com.github.quizclash.application.screen.menu.MenuCreator;
@@ -49,10 +50,10 @@ public class OnlineMultiplayerScreenProvider implements ScreenProvider, GameRoom
             player.getCurrentScore().getIntScore()));
       }
       screenFactory.createInformationScreen("Result", lines).render();
-    } catch (RoomCreationException e) {
+    } catch (GameRoomCreationException e) {
       List<String> exceptionMessage = List.of("Room creation was not possible");
       screenFactory.createInformationScreen("Operation failed", exceptionMessage).render();
-    } catch (RoomJoinException e) {
+    } catch (GameRoomJoinException e) {
       List<String> exceptionMessage = List.of("Joining the room was not possible");
       screenFactory.createInformationScreen("Operation failed", exceptionMessage).render();
     }
@@ -63,7 +64,7 @@ public class OnlineMultiplayerScreenProvider implements ScreenProvider, GameRoom
     return ScreenProviderType.MENU;
   }
 
-  private void createNewRoom() throws RoomCreationException, RoomJoinException {
+  private void createNewRoom() throws GameRoomCreationException, GameRoomJoinException {
     TextInputScreen createRoomScreen = screenFactory.createTextInputScreen(
         "Create a new room by giving it a name", "Enter name for new room");
     createRoomScreen.render();
@@ -75,7 +76,7 @@ public class OnlineMultiplayerScreenProvider implements ScreenProvider, GameRoom
     gameRoom = gameRoomManager.createRoom(playingUser, roomName, amountOfPlayers);
   }
 
-  private void joinRoom() throws RoomJoinException {
+  private void joinRoom() throws GameRoomJoinException {
     TextInputScreen joinRoomScreen = screenFactory.createTextInputScreen(
         "Join a room by entering the game code of the desired room", "Enter room code");
     joinRoomScreen.render();
@@ -92,7 +93,8 @@ public class OnlineMultiplayerScreenProvider implements ScreenProvider, GameRoom
       categoryScreen = screenFactory.createOptionScreen(screenName, remainingCategories);
     } else {
       String screenName = playerName + " is selecting category";
-      List<String> categoryLines = IntStream.range(0, remainingCategories.size())
+      List<String> categoryLines = IntStream
+          .range(0, remainingCategories.size())
           .mapToObj(i -> (i + 1) + ") " + remainingCategories.get(i).getDisplayName())
           .toList();
       categoryScreen = screenFactory.createInformationScreen(screenName, categoryLines, false);
@@ -120,15 +122,17 @@ public class OnlineMultiplayerScreenProvider implements ScreenProvider, GameRoom
     String roomCode = gameRoom.getCode();
     List<User> users = gameRoom.getPlayers();
     List<String> userText = users.stream().map(User::getName).toList();
-    screenFactory.createInformationScreen("Room: " + roomName + " (" + roomCode + ")", userText,
-        false).render();
+    screenFactory
+        .createInformationScreen("Room: " + roomName + " (" + roomCode + ")", userText, false)
+        .render();
   }
 
   @Override
   public void onGameStart() {
     CategoryRepository categoryRepository = gameRoom.getRoomCategoryRepository();
     List<User> usersToPlay = gameRoom.getPlayers();
-    Player[] players = usersToPlay.stream()
+    Player[] players = usersToPlay
+        .stream()
         .map(user -> new Player(user.getName()))
         .toArray(Player[]::new);
     onlineQuizGame = new QuizGame(categoryRepository, 4 * players.length, players);
@@ -157,20 +161,25 @@ public class OnlineMultiplayerScreenProvider implements ScreenProvider, GameRoom
     onlineQuizGame.setCurrentCategoryById(selectedCategoryId);
     String playerName = onlineQuizGame.getCurrentPlayer().getPlayerName();
     String categoryName = onlineQuizGame.getCurrentCategory().getCategoryName();
-    screenFactory.createInformationScreen("Category selection",
-        List.of("Player " + playerName + " selected category " + categoryName), false).render();
+    screenFactory
+        .createInformationScreen("Category selection",
+            List.of("Player " + playerName + " selected category " + categoryName), false)
+        .render();
     try {
       Thread.sleep(2500);
     } catch (InterruptedException e) {
-      // TODO
+      throw new TerminationException("QuizClash was interrupted");
     }
     Question currentQuestion = onlineQuizGame.getCurrentQuestion();
     QuestionOption[] currentQuestionOptions = currentQuestion.getQuestionOptions();
-    List<String> questionOptionLines = IntStream.range(0, currentQuestionOptions.length)
+    List<String> questionOptionLines = IntStream
+        .range(0, currentQuestionOptions.length)
         .mapToObj(i -> (i + 1) + ") " + currentQuestionOptions[i].getDisplayName())
         .toList();
-    screenFactory.createInformationScreen("Question: " + currentQuestion.getQuestion(),
-        questionOptionLines, false).render();
+    screenFactory
+        .createInformationScreen("Question: " + currentQuestion.getQuestion(), questionOptionLines,
+            false)
+        .render();
   }
 
   @Override
