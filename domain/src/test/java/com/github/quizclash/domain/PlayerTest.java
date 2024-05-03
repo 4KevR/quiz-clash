@@ -22,7 +22,7 @@ class PlayerTest {
   @Test
   void incrementScore() {
     int currentScore = player.getCurrentScore().getIntScore();
-    player.incrementScore(new Score(currentScore + 1));
+    player.incrementScore(new Score(1));
     assertEquals(currentScore + 1, player.getCurrentScore().getIntScore());
   }
 

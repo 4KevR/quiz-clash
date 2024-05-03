@@ -1,5 +1,6 @@
 package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.Helper;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.TextInputScreen;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
@@ -20,13 +21,12 @@ class AddUserScreenProviderTest {
     TextInputScreen textInputScreen = Helper.getMockedTextInputScreen("Player 1");
     Mockito.when(screenFactory.createTextInputScreen("Add another player", "Enter name"))
         .thenReturn(textInputScreen);
-    this.addUserScreenProvider = new AddUserScreenProvider(repository, screenFactory);
+    addUserScreenProvider = new AddUserScreenProvider(repository, screenFactory);
   }
 
   @Test
   void getNextScreenProviderType() throws InterruptedException {
-    this.addUserScreenProvider.execute();
-    assertEquals(ScreenProviderType.USER_MENU,
-        this.addUserScreenProvider.getNextScreenProviderType());
+    addUserScreenProvider.execute();
+    assertEquals(ScreenProviderType.USER_MENU, addUserScreenProvider.getNextScreenProviderType());
   }
 }

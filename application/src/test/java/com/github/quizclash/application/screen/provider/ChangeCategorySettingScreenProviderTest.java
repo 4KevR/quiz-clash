@@ -1,5 +1,6 @@
 package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.Helper;
 import com.github.quizclash.application.screen.NumberInputScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
@@ -21,14 +22,14 @@ class ChangeCategorySettingScreenProviderTest {
     Mockito.when(screenFactory.createNumberInputScreen(
             "How many categories do you want to play per user in one game?", "Enter a number"))
         .thenReturn(numberInputScreen);
-    this.changeCategorySettingScreenProvider = new ChangeCategorySettingScreenProvider(repository,
+    changeCategorySettingScreenProvider = new ChangeCategorySettingScreenProvider(repository,
         screenFactory);
   }
 
   @Test
   void getNextScreenProviderType() throws InterruptedException {
-    this.changeCategorySettingScreenProvider.execute();
+    changeCategorySettingScreenProvider.execute();
     assertEquals(ScreenProviderType.GAME_SETTINGS,
-        this.changeCategorySettingScreenProvider.getNextScreenProviderType());
+        changeCategorySettingScreenProvider.getNextScreenProviderType());
   }
 }

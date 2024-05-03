@@ -1,5 +1,6 @@
 package com.github.quizclash.application.screen.provider;
 
+import com.github.quizclash.application.Helper;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.TextInputScreen;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
@@ -28,6 +29,6 @@ class WelcomeScreenProviderTest {
   @Test
   void getNextScreenProviderType() throws InterruptedException {
     this.welcomeScreenProvider.execute();
-    assertEquals(ScreenProviderType.MENU, this.welcomeScreenProvider.getNextScreenProviderType());
+    assertEquals(ScreenProviderType.MENU, welcomeScreenProvider.getNextScreenProviderType());
   }
 }

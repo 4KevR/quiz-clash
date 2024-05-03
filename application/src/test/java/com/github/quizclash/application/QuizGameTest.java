@@ -1,6 +1,5 @@
 package com.github.quizclash.application;
 
-import com.github.quizclash.application.screen.provider.Helper;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Player;
 import com.github.quizclash.domain.Repository;
@@ -20,17 +19,17 @@ class QuizGameTest {
 
   @BeforeEach
   void setUp() throws InvalidQuestionFormatException {
-    this.repository = Helper.getMockedRepository();
+    repository = Helper.getMockedRepository();
     List<User> users = repository.getUserRepository().getUsers();
-    this.players = new Player[users.size()];
+    players = new Player[users.size()];
     for (int i = 0; i < users.size(); i++) {
-      this.players[i] = new Player(users.get(i).getName());
+      players[i] = new Player(users.get(i).getName());
     }
-    this.quizGame = new QuizGame(repository.getCategoryRepository(), CATEGORY_AMOUNT, this.players);
+    quizGame = new QuizGame(repository.getCategoryRepository(), CATEGORY_AMOUNT, players);
   }
 
   @Test
-  void getRemainingGameCategories() {
+  void testInitialRemainingGameCategories() {
     assertEquals(CATEGORY_AMOUNT, quizGame.getRemainingGameCategories().size());
   }
 
@@ -49,8 +48,10 @@ class QuizGameTest {
 
   @Test
   void getCurrentPlayer() {
-    assertTrue(this.repository.getUserRepository().getUsers().stream().map(User::getName).toList()
-        .contains(quizGame.getCurrentPlayer().getPlayerName()));
+    List<String> usernames = repository.getUserRepository().getUsers().stream().map(User::getName)
+        .toList();
+    String currentPlayerName = quizGame.getCurrentPlayer().getPlayerName();
+    assertTrue(usernames.contains(currentPlayerName));
   }
 
   @Test
@@ -62,23 +63,42 @@ class QuizGameTest {
 
   @Test
   void getPlayers() {
-    assertArrayEquals(this.players, quizGame.getPlayers());
+    assertArrayEquals(players, quizGame.getPlayers());
   }
 
   @Test
   void isFinished() {
     assertFalse(quizGame.isFinished());
-    while (!quizGame.isFinished()) {
+    for (int i = 0; i < CATEGORY_AMOUNT; i++) {
       quizGame.setCurrentCategory(0);
       quizGame.submitQuestionAnswer(0);
     }
     assertTrue(quizGame.isFinished());
   }
 
-  @Test
-  void submitQuestionAnswer() {
+  void submitQuestionAnswer(boolean isRight) {
+    Player currentPlayer = quizGame.getCurrentPlayer();
+    int currentPlayerScore = currentPlayer.getCurrentScore().getIntScore();
     quizGame.setCurrentCategory(0);
-    quizGame.submitQuestionAnswer(0);
+    for (int i = 0; i < quizGame.getCurrentQuestion().getQuestionOptions().length; i++) {
+      if (isRight && quizGame.getCurrentQuestion()
+          .checkAnswer(i) || !isRight && !quizGame.getCurrentQuestion().checkAnswer(i)) {
+        quizGame.submitQuestionAnswer(i);
+        break;
+      }
+    }
     assertTrue(quizGame.isFinished() || quizGame.isSelectingCategory());
+    assertEquals(currentPlayerScore + (isRight ? 500 : 0),
+        currentPlayer.getCurrentScore().getIntScore());
+  }
+
+  @Test
+  void submitRightQuestionAnswer() {
+    submitQuestionAnswer(true);
+  }
+
+  @Test
+  void submitWrongQuestionAnswer() {
+    submitQuestionAnswer(false);
   }
 }

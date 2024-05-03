@@ -1,4 +1,4 @@
-package com.github.quizclash.application.screen.provider;
+package com.github.quizclash.application;
 
 import com.github.quizclash.application.action.Action;
 import com.github.quizclash.application.screen.NumberInputScreen;
@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Helper {
-
-  public static Question[] QUESTIONS;
-  public static Category[] CATEGORIES;
 
   public static TextInputScreen getMockedTextInputScreen(String returnValue) {
     TextInputScreen textInputScreen = Mockito.mock(TextInputScreen.class);
@@ -41,16 +38,18 @@ public class Helper {
 
   public static Repository getMockedRepository() throws InvalidQuestionFormatException {
 
-    QUESTIONS = new Question[]{new Question(1, "Question 1",
-        new QuestionOption[]{new QuestionOption("Option 1", true), new QuestionOption("Option 2",
-            false), new QuestionOption("Option 3", false), new QuestionOption("Option 4", false)})};
+    QuestionOption[] questionOptions = new QuestionOption[]{new QuestionOption("Option 1",
+        true), new QuestionOption("Option 2", false), new QuestionOption("Option 3",
+        false), new QuestionOption("Option 4", false)};
 
-    CATEGORIES = new Category[]{new Category(1, "Geography", QUESTIONS)};
+    Question[] questions = new Question[]{new Question(1, "Question 1", questionOptions)};
+
+    Category[] categories = new Category[]{new Category(1, "Category 1", questions)};
 
     Repository repository = Mockito.mock(Repository.class);
 
     CategoryRepository categoryRepository = Mockito.mock(CategoryRepository.class);
-    Mockito.when(categoryRepository.getRandomCategories(1)).thenReturn(CATEGORIES);
+    Mockito.when(categoryRepository.getRandomCategories(1)).thenReturn(categories);
     Mockito.when(repository.getCategoryRepository()).thenReturn(categoryRepository);
 
     SettingsRepository settingsRepository = Mockito.mock(SettingsRepository.class);
