@@ -3,7 +3,7 @@ package com.github.quizclash.application.screen.provider;
 import com.github.quizclash.application.Helper;
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
-import com.github.quizclash.application.screen.displayables.MainMenuEnum;
+import com.github.quizclash.application.screen.menu.MainMenuEnum;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Repository;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,9 +53,10 @@ class MenuScreenProviderTest {
     assertNull(menuScreenProvider.getNextScreenProviderType());
   }
 
-  void executeMenuScreenProvider(int returnValue) throws InterruptedException {
+  void executeMenuScreenProvider(int returnValue) {
     OptionScreen optionScreen = Helper.getMockedOptionScreen(returnValue);
-    Mockito.when(screenFactory.createOptionScreen(SCREEN_NAME, List.of(MainMenuEnum.values())))
+    Mockito
+        .when(screenFactory.createOptionScreen(SCREEN_NAME, List.of(MainMenuEnum.values())))
         .thenReturn(optionScreen);
     menuScreenProvider.execute();
   }

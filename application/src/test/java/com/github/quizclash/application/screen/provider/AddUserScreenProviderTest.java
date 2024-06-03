@@ -19,7 +19,8 @@ class AddUserScreenProviderTest {
     Repository repository = Helper.getMockedRepository();
     ScreenFactory screenFactory = Mockito.mock(ScreenFactory.class);
     TextInputScreen textInputScreen = Helper.getMockedTextInputScreen("Player 1");
-    Mockito.when(screenFactory.createTextInputScreen("Add another player", "Enter name"))
+    Mockito
+        .when(screenFactory.createTextInputScreen("Add another player", "Enter name"))
         .thenReturn(textInputScreen);
     addUserScreenProvider = new AddUserScreenProvider(repository, screenFactory);
   }

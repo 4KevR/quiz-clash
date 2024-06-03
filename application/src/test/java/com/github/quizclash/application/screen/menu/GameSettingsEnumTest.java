@@ -1,4 +1,4 @@
-package com.github.quizclash.application.screen.displayables;
+package com.github.quizclash.application.screen.menu;
 
 import org.junit.jupiter.api.Test;
 
