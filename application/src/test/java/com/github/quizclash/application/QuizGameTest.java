@@ -48,7 +48,11 @@ class QuizGameTest {
 
   @Test
   void getCurrentPlayer() {
-    List<String> usernames = repository.getUserRepository().getUsers().stream().map(User::getName)
+    List<String> usernames = repository
+        .getUserRepository()
+        .getUsers()
+        .stream()
+        .map(User::getName)
         .toList();
     String currentPlayerName = quizGame.getCurrentPlayer().getPlayerName();
     assertTrue(usernames.contains(currentPlayerName));
@@ -81,8 +85,9 @@ class QuizGameTest {
     int currentPlayerScore = currentPlayer.getCurrentScore().getIntScore();
     quizGame.setCurrentCategory(0);
     for (int i = 0; i < quizGame.getCurrentQuestion().getQuestionOptions().length; i++) {
-      if (isRight && quizGame.getCurrentQuestion()
-          .checkAnswer(i) || !isRight && !quizGame.getCurrentQuestion().checkAnswer(i)) {
+      if (isRight && quizGame.getCurrentQuestion().checkAnswer(i) || !isRight && !quizGame
+          .getCurrentQuestion()
+          .checkAnswer(i)) {
         quizGame.submitQuestionAnswer(i);
         break;
       }

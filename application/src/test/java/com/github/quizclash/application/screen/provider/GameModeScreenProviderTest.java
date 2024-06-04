@@ -3,7 +3,7 @@ package com.github.quizclash.application.screen.provider;
 import com.github.quizclash.application.Helper;
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
-import com.github.quizclash.application.screen.displayables.GameModeEnum;
+import com.github.quizclash.application.screen.menu.GameModeEnum;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.Repository;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,18 +29,20 @@ class GameModeScreenProviderTest {
   }
 
   @Test
-  void testTrainingOption() throws InterruptedException {
+  void testTrainingOption() {
     OptionScreen optionScreen = Helper.getMockedOptionScreen(1);
-    Mockito.when(screenFactory.createOptionScreen(SCREEN_NAME, List.of(GameModeEnum.values())))
+    Mockito
+        .when(screenFactory.createOptionScreen(SCREEN_NAME, List.of(GameModeEnum.values())))
         .thenReturn(optionScreen);
     gameModeScreenProvider.execute();
     assertEquals(ScreenProviderType.TRAINING, gameModeScreenProvider.getNextScreenProviderType());
   }
 
   @Test
-  void testLocalMultiplayerOption() throws InterruptedException {
+  void testLocalMultiplayerOption() {
     OptionScreen optionScreen = Helper.getMockedOptionScreen(2);
-    Mockito.when(screenFactory.createOptionScreen(SCREEN_NAME, List.of(GameModeEnum.values())))
+    Mockito
+        .when(screenFactory.createOptionScreen(SCREEN_NAME, List.of(GameModeEnum.values())))
         .thenReturn(optionScreen);
     gameModeScreenProvider.execute();
     assertEquals(ScreenProviderType.LOCAL_MULTIPLAYER,

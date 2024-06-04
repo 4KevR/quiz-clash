@@ -7,6 +7,7 @@ public enum ScreenProviderType {
   GAME_SETTINGS,
   LOCAL_MULTIPLAYER,
   MENU,
+  ONLINE_MULTIPLAYER,
   REMOVE_USER,
   TRAINING,
   USER_MENU,

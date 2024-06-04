@@ -17,7 +17,7 @@ public class AddUserScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     TextInputScreen textInputScreen = screenFactory.createTextInputScreen("Add another player",
         "Enter name");
     textInputScreen.render();

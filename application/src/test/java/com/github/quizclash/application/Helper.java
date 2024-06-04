@@ -49,7 +49,7 @@ public class Helper {
     Repository repository = Mockito.mock(Repository.class);
 
     CategoryRepository categoryRepository = Mockito.mock(CategoryRepository.class);
-    Mockito.when(categoryRepository.getRandomCategories(1)).thenReturn(categories);
+    Mockito.when(categoryRepository.getCategorySelection(1)).thenReturn(categories);
     Mockito.when(repository.getCategoryRepository()).thenReturn(categoryRepository);
 
     SettingsRepository settingsRepository = Mockito.mock(SettingsRepository.class);

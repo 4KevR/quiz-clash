@@ -1,5 +1,6 @@
 package com.github.quizclash.plugin.cli.screen;
 
+import com.github.quizclash.application.TerminationException;
 import com.github.quizclash.application.action.Action;
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.domain.Displayable;
@@ -20,7 +21,7 @@ public class CLIOptionScreen extends OptionScreen {
   }
 
   @Override
-  public void render() throws InterruptedException {
+  public void render() {
     cliWindow.clearAllCanvas();
     cliWindow.printAnimated(this.getScreenName(), 20);
     cliWindow.moveOnCanvas(0, 2);
@@ -33,11 +34,11 @@ public class CLIOptionScreen extends OptionScreen {
     return new Action<>(userOption);
   }
 
-  private int selectFromOptions(List<? extends Displayable> optionList)
-      throws InterruptedException {
+  private int selectFromOptions(List<? extends Displayable> optionList) {
     ListIterator<? extends Displayable> gameModeListIterator = optionList.listIterator();
     while (gameModeListIterator.hasNext()) {
-      cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " + gameModeListIterator.next()
+      cliWindow.println(gameModeListIterator.nextIndex() + 1 + ") " + gameModeListIterator
+          .next()
           .getDisplayName());
     }
     cliWindow.moveToActionField();
@@ -49,7 +50,11 @@ public class CLIOptionScreen extends OptionScreen {
         System.out.print("\u001b[1D");
         System.out.print("\u001b[1A");
         cliWindow.print("Please only enter numeric values!");
-        Thread.sleep(2000);
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException e) {
+          throw new TerminationException("QuizClash was interrupted");
+        }
         cliWindow.clearActionField();
         System.out.print("\u001b[1D");
         System.out.print("\u001b[1A");

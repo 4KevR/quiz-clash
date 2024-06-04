@@ -7,7 +7,7 @@ import com.github.quizclash.plugin.cli.CLIWindowManager;
 import java.util.List;
 
 public class CLIScreenFactory implements ScreenFactory {
-  CLIWindowManager cliWindow;
+  final CLIWindowManager cliWindow;
 
   public CLIScreenFactory(CLIWindowManager cliWindow) {
     this.cliWindow = cliWindow;
@@ -16,6 +16,13 @@ public class CLIScreenFactory implements ScreenFactory {
   @Override
   public InformationScreen createInformationScreen(String screenName, List<String> lines) {
     return new CLIInformationScreen(screenName, lines, cliWindow);
+  }
+
+  @Override
+  public InformationScreen createInformationScreen(String screenName,
+                                                   List<String> lines,
+                                                   boolean isBlocking) {
+    return new CLIInformationScreen(screenName, lines, isBlocking, cliWindow);
   }
 
   @Override

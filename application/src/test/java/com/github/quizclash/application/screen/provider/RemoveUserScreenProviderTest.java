@@ -29,8 +29,9 @@ class RemoveUserScreenProviderTest {
   @Test
   void getNextScreenProviderType() throws InterruptedException {
     OptionScreen optionScreen = Helper.getMockedOptionScreen(1);
-    Mockito.when(
-            screenFactory.createOptionScreen(SCREEN_NAME, repository.getUserRepository().getUsers()))
+    Mockito
+        .when(screenFactory.createOptionScreen(SCREEN_NAME,
+            repository.getUserRepository().getUsers()))
         .thenReturn(optionScreen);
     removeUserScreenProvider.execute();
     assertEquals(ScreenProviderType.USER_MENU,

@@ -16,7 +16,7 @@ public class WelcomeScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     TextInputScreen textInputScreen = screenFactory.createTextInputScreen(
         "Your name is required to start the game!", "Enter your name");
     textInputScreen.render();

@@ -1,5 +1,6 @@
 package com.github.quizclash.application;
 
+import com.github.quizclash.application.room.GameRoomManager;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.provider.*;
 import com.github.quizclash.domain.Repository;
@@ -7,15 +8,19 @@ import com.github.quizclash.domain.Repository;
 public class ScreenProviderManager {
   private final Repository repository;
   private final ScreenFactory screenFactory;
+  private final GameRoomManager gameRoomManager;
   private ScreenProvider currentScreenProvider;
 
-  public ScreenProviderManager(Repository repository, ScreenFactory screenFactory) {
+  public ScreenProviderManager(Repository repository,
+                               ScreenFactory screenFactory,
+                               GameRoomManager gameRoomManager) {
     this.repository = repository;
     this.screenFactory = screenFactory;
+    this.gameRoomManager = gameRoomManager;
     this.currentScreenProvider = new WelcomeScreenProvider(repository, screenFactory);
   }
 
-  public void run() throws InterruptedException {
+  public void run() {
     while (currentScreenProvider != null) {
       currentScreenProvider.execute();
       this.updateScreenProvider();
@@ -40,6 +45,9 @@ public class ScreenProviderManager {
       case LOCAL_MULTIPLAYER ->
           currentScreenProvider = new LocalMultiplayerScreenProvider(repository, screenFactory);
       case MENU -> currentScreenProvider = new MenuScreenProvider(repository, screenFactory);
+      case ONLINE_MULTIPLAYER ->
+          currentScreenProvider = new OnlineMultiplayerScreenProvider(repository, screenFactory,
+              gameRoomManager);
       case REMOVE_USER ->
           currentScreenProvider = new RemoveUserScreenProvider(repository, screenFactory);
       case TRAINING ->

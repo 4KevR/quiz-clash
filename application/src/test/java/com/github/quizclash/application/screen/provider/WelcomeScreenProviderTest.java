@@ -21,7 +21,8 @@ class WelcomeScreenProviderTest {
     Repository repository = Helper.getMockedRepository();
     ScreenFactory screenFactory = Mockito.mock(ScreenFactory.class);
     TextInputScreen textInputScreen = Helper.getMockedTextInputScreen("Player 1");
-    Mockito.when(screenFactory.createTextInputScreen(SCREEN_NAME, INPUT_REQUEST))
+    Mockito
+        .when(screenFactory.createTextInputScreen(SCREEN_NAME, INPUT_REQUEST))
         .thenReturn(textInputScreen);
     this.welcomeScreenProvider = new WelcomeScreenProvider(repository, screenFactory);
   }

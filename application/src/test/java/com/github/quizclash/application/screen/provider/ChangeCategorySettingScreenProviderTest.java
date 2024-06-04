@@ -19,7 +19,8 @@ class ChangeCategorySettingScreenProviderTest {
     Repository repository = Helper.getMockedRepository();
     ScreenFactory screenFactory = Mockito.mock(ScreenFactory.class);
     NumberInputScreen numberInputScreen = Helper.getMockedNumberInputScreen(3);
-    Mockito.when(screenFactory.createNumberInputScreen(
+    Mockito
+        .when(screenFactory.createNumberInputScreen(
             "How many categories do you want to play per user in one game?", "Enter a number"))
         .thenReturn(numberInputScreen);
     changeCategorySettingScreenProvider = new ChangeCategorySettingScreenProvider(repository,

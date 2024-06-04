@@ -8,15 +8,15 @@ import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CategoryRepositoryImplTest {
-  CategoryRepositoryImpl categoryRepository = new CategoryRepositoryImpl();
+class LocalCategoryRepositoryTest {
+  final LocalCategoryRepository categoryRepository = new LocalCategoryRepository();
 
-  CategoryRepositoryImplTest() throws InvalidQuestionFormatException, IOException {
+  LocalCategoryRepositoryTest() throws InvalidQuestionFormatException, IOException {
   }
 
   @Test
   void testGetRandomCategories() {
-    Category[] categories = categoryRepository.getRandomCategories(4);
+    Category[] categories = categoryRepository.getCategorySelection(4);
     assertEquals(categories.length, 4);
   }
 }

@@ -11,5 +11,5 @@ public abstract class Screen {
     return screenName;
   }
 
-  public abstract void render() throws InterruptedException;
+  public abstract void render();
 }

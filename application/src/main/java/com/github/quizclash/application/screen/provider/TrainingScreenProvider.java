@@ -24,7 +24,7 @@ public class TrainingScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     while (!quizGame.isFinished()) {
       if (quizGame.isSelectingCategory()) {
         String playerName = quizGame.getCurrentPlayer().getPlayerName();

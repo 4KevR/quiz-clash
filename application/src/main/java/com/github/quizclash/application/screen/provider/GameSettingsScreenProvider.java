@@ -2,7 +2,7 @@ package com.github.quizclash.application.screen.provider;
 
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
-import com.github.quizclash.application.screen.displayables.GameSettingsEnum;
+import com.github.quizclash.application.screen.menu.GameSettingsEnum;
 import com.github.quizclash.domain.Repository;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class GameSettingsScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int selection = 0;
     String menuTitle = "Which Settings do you want to change?";
     while (selection <= 0 || selection > 3) {

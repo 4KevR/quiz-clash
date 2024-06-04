@@ -2,7 +2,7 @@ package com.github.quizclash.application.screen.provider;
 
 import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
-import com.github.quizclash.application.screen.displayables.MainMenuEnum;
+import com.github.quizclash.application.screen.menu.MainMenuEnum;
 import com.github.quizclash.domain.Repository;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class MenuScreenProvider implements ScreenProvider {
   }
 
   @Override
-  public void execute() throws InterruptedException {
+  public void execute() {
     int selectedMenuItem = 0;
     while (selectedMenuItem <= 0 || selectedMenuItem > 4) {
       String userName = this.repository.getUserRepository().getUsers().get(0).getName();
