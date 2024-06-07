@@ -1,11 +1,9 @@
 package com.github.quizclash.application.screen.provider;
 
-import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
 import com.github.quizclash.application.screen.menu.MainMenuEnum;
+import com.github.quizclash.application.screen.menu.MenuCreator;
 import com.github.quizclash.domain.Repository;
-
-import java.util.List;
 
 public class MenuScreenProvider implements ScreenProvider {
   private final Repository repository;
@@ -19,25 +17,14 @@ public class MenuScreenProvider implements ScreenProvider {
 
   @Override
   public void execute() {
-    int selectedMenuItem = 0;
-    while (selectedMenuItem <= 0 || selectedMenuItem > 4) {
-      String userName = this.repository.getUserRepository().getUsers().get(0).getName();
-      String menuTitle = "Hello " + userName + ", select an entry from the menu";
-      OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle,
-          List.of(MainMenuEnum.values()));
-      optionScreen.render();
-      selectedMenuItem = optionScreen.getOptionInput().getActionValue();
-      switch (selectedMenuItem) {
-        case 1:
-          this.nextScreenProviderType = ScreenProviderType.GAME_MODE;
-          break;
-        case 2:
-          this.nextScreenProviderType = ScreenProviderType.GAME_SETTINGS;
-          break;
-        case 3:
-          this.nextScreenProviderType = ScreenProviderType.USER_MENU;
-          break;
-      }
+    String userName = this.repository.getUserRepository().getUsers().get(0).getName();
+    String menuTitle = "Hello " + userName + ", select an entry from the menu";
+    MenuCreator menuCreator = new MenuCreator(menuTitle, MainMenuEnum.values(), screenFactory);
+    int selectedMenuItem = menuCreator.displayAndGetSelection();
+    switch (selectedMenuItem) {
+      case 1 -> this.nextScreenProviderType = ScreenProviderType.GAME_MODE;
+      case 2 -> this.nextScreenProviderType = ScreenProviderType.GAME_SETTINGS;
+      case 3 -> this.nextScreenProviderType = ScreenProviderType.USER_MENU;
     }
   }
 

@@ -16,7 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class GameSettingsScreenProviderTest {
-  private static final String SCREEN_NAME = "Which Settings do you want to change?";
+  private static final String SCREEN_NAME = "Which Setting do you want to change?";
   @Mock
   private ScreenFactory screenFactory;
   private GameSettingsScreenProvider gameSettingsScreenProvider;

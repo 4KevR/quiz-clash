@@ -17,7 +17,7 @@ class QuestionValidatorTest {
   }
 
   @Test
-  void validateForIncorrectAmountOfQuestions() {
+  void validateForIncorrectAmountOfQuestionOptions() {
     QuestionOption[] questionOptions = new QuestionOption[5];
     assertThrows(InvalidQuestionFormatException.class,
         () -> QuestionValidator.validate(questionOptions));

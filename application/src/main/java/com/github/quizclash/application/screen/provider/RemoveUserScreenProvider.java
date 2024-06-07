@@ -1,7 +1,7 @@
 package com.github.quizclash.application.screen.provider;
 
-import com.github.quizclash.application.screen.OptionScreen;
 import com.github.quizclash.application.screen.ScreenFactory;
+import com.github.quizclash.application.screen.menu.MenuCreator;
 import com.github.quizclash.domain.Repository;
 import com.github.quizclash.domain.User;
 
@@ -19,14 +19,10 @@ public class RemoveUserScreenProvider implements ScreenProvider {
 
   @Override
   public void execute() {
-    int userToRemove = 0;
-    String menuTitle = "Which user do you want to remove?";
     List<User> users = this.repository.getUserRepository().getUsers();
-    while (userToRemove <= 0 || userToRemove > users.size()) {
-      OptionScreen optionScreen = screenFactory.createOptionScreen(menuTitle, users);
-      optionScreen.render();
-      userToRemove = optionScreen.getOptionInput().getActionValue();
-    }
+    MenuCreator menuCreator = new MenuCreator("Which user do you want to remove?",
+        users.toArray(new User[0]), screenFactory);
+    int userToRemove = menuCreator.displayAndGetSelection();
     this.repository.getUserRepository().removeUser(users.get(userToRemove - 1));
     this.nextScreenProviderType = ScreenProviderType.USER_MENU;
   }
