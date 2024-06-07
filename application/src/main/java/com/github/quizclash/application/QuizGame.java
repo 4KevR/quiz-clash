@@ -23,7 +23,8 @@ public class QuizGame {
   }
 
   public List<? extends Displayable> getRemainingGameCategories() {
-    return Arrays.stream(gameCategories)
+    return Arrays
+        .stream(gameCategories)
         .filter(category -> !playedCategoryIds.contains(category.getId()))
         .collect(Collectors.toList());
   }

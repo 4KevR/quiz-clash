@@ -1,7 +1,8 @@
 package com.github.quizclash.plugin.network;
 
 import com.github.quizclash.application.TerminationException;
-import com.github.quizclash.application.room.*;
+import com.github.quizclash.application.room.GameRoom;
+import com.github.quizclash.application.room.GameRoomListener;
 import com.github.quizclash.domain.CategoryRepository;
 import com.github.quizclash.domain.InvalidQuestionFormatException;
 import com.github.quizclash.domain.User;
@@ -14,8 +15,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocketIOGameRoom extends GameRoom
-    implements GameRoomLifetimeDispatcher, GameRoomActionDispatcher, GameRoomActionSender {
+public class SocketIOGameRoom extends GameRoom {
   private final Object lock = new Object();
   private final Socket socket;
   private final List<GameRoomListener> gameRoomListeners = new ArrayList<>();
